@@ -1,0 +1,38 @@
+.page {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	width: 100% !important;
+}
+
+.wrapper {
+	width: 350px;
+	margin-top: -100px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.wrapper-form__title {
+	font-size: larger;
+}
+
+.wrapper-form {
+	box-sizing: border-wrapper;
+	width: 100%;
+	height: 100%;
+	padding: 1rem;
+	border-radius: 10px;
+	border: 2px solid #ccc;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 20px;
+}
+
+.wrapper-link {
+	width: 100%;
+	text-align: center;
+	font-size: large;
+}
