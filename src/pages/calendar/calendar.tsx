@@ -1,19 +1,18 @@
-import { Button, Grid, Link, MenuItem, Select } from '@mui/material'
+import { Button, Grid, Link } from '@mui/material'
 import {
 	eachDayOfInterval,
-	eachMonthOfInterval,
 	endOfMonth,
 	endOfWeek,
-	endOfYear,
 	format,
 	setDefaultOptions,
 	startOfMonth,
 	startOfToday,
 	startOfWeek,
-	startOfYear,
 } from 'date-fns'
 
 import { useState } from 'react'
+import MonthSelect from '../../components/month-select/month-select'
+import YearSelect from '../../components/year-select/year-select'
 import './calendar.css'
 
 setDefaultOptions({ weekStartsOn: 1 })
@@ -28,17 +27,6 @@ export default function Calendar() {
 		})
 	}
 
-	function getMonths() {
-		return eachMonthOfInterval({
-			start: startOfYear(today),
-			end: endOfYear(today),
-		})
-	}
-
-	function handleChangeMonth(startOfMonth: Date) {
-		setToday(startOfMonth)
-	}
-
 	return (
 		<div className='calendar'>
 			<div className='calendar-header'>
@@ -50,24 +38,16 @@ export default function Calendar() {
 				</div>
 			</div>
 			<div className='calendar-body'>
-				<div className='calendar-body__months'>
-					<Select
-						value={today.toISOString()}
-						placeholder={format(today, 'MMMM')}
-						onChange={e => handleChangeMonth(new Date(e.target.value))}
-					>
-						{getMonths().map((month, index) => (
-							<MenuItem value={month.toISOString()} key={index}>
-								{format(month, 'MMMM')}
-							</MenuItem>
-						))}
-					</Select>
+				<div className='calendar-body__options'>
+					<YearSelect today={today} setToday={setToday} />
+					<MonthSelect today={today} setToday={setToday} />
 				</div>
-				<div className='calendar-body__grid'>
+				<div>
 					<Grid
+						className='calendar-body__grid'
 						container
 						direction={'row'}
-						spacing={1}
+						spacing={2}
 						columns={7}
 						gridTemplateRows={6}
 					>

@@ -19,8 +19,19 @@
 	right: 30px;
 }
 
+.calendar-body {
+	padding: 20px;
+}
+
 .calendar-body__grid {
-	width: 600px !important;
+	width: 50% !important;
+}
+
+.calendar-body__options {
+	width: 40%;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
 }
 
 .notPresentMonth {
