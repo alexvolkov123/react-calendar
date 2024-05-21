@@ -1,0 +1,10 @@
+.year-select {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 300px;
+}
+
+.year-select__item {
+	font-size: 70px !important;
+}
