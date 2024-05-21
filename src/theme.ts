@@ -89,5 +89,16 @@ export const theme = createTheme({
 				},
 			},
 		},
+		MuiSelect: {
+			styleOverrides: {
+				root: {
+					width: 200,
+					textAlign: 'left',
+				},
+				icon: {
+					fontSize: 40,
+				},
+			},
+		},
 	},
 })

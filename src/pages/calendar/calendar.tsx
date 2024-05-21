@@ -1,23 +1,43 @@
-import { Button, Grid, Link } from '@mui/material'
+import { Button, Grid, Link, MenuItem, Select } from '@mui/material'
 import {
 	eachDayOfInterval,
+	eachMonthOfInterval,
 	endOfMonth,
 	endOfWeek,
+	endOfYear,
 	format,
+	setDefaultOptions,
 	startOfMonth,
 	startOfToday,
 	startOfWeek,
+	startOfYear,
 } from 'date-fns'
 
+import { useState } from 'react'
 import './calendar.css'
 
-export default function Calendar() {
-	let today = startOfToday()
+setDefaultOptions({ weekStartsOn: 1 })
 
-	let newDays = eachDayOfInterval({
-		start: startOfWeek(startOfMonth(today)),
-		end: endOfWeek(endOfMonth(today)),
-	})
+export default function Calendar() {
+	const [today, setToday] = useState(startOfToday())
+
+	function getDays() {
+		return eachDayOfInterval({
+			start: startOfWeek(startOfMonth(today)),
+			end: endOfWeek(endOfMonth(today)),
+		})
+	}
+
+	function getMonths() {
+		return eachMonthOfInterval({
+			start: startOfYear(today),
+			end: endOfYear(today),
+		})
+	}
+
+	function handleChangeMonth(startOfMonth: Date) {
+		setToday(startOfMonth)
+	}
 
 	return (
 		<div className='calendar'>
@@ -30,6 +50,19 @@ export default function Calendar() {
 				</div>
 			</div>
 			<div className='calendar-body'>
+				<div className='calendar-body__months'>
+					<Select
+						value={today.toISOString()}
+						placeholder={format(today, 'MMMM')}
+						onChange={e => handleChangeMonth(new Date(e.target.value))}
+					>
+						{getMonths().map((month, index) => (
+							<MenuItem value={month.toISOString()} key={index}>
+								{format(month, 'MMMM')}
+							</MenuItem>
+						))}
+					</Select>
+				</div>
 				<div className='calendar-body__grid'>
 					<Grid
 						container
@@ -38,7 +71,7 @@ export default function Calendar() {
 						columns={7}
 						gridTemplateRows={6}
 					>
-						{newDays.map((day, index) => (
+						{getDays().map((day, index) => (
 							<Grid item key={index}>
 								{day.getMonth() !== today.getMonth() ? (
 									<Button
