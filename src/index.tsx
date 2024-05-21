@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter, redirect } from 'react-router-dom'
 import './index.css'
 import AuthForm from './pages/auth/auth-form'
+import Calendar from './pages/calendar/calendar'
 import { theme } from './theme'
 
 const router = createBrowserRouter([
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
 	{
 		path: '/register',
 		element: <AuthForm formType={'register'} />,
+	},
+	{
+		path: '/calendar',
+		element: <Calendar />,
 	},
 ])
 

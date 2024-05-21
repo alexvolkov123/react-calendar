@@ -10,13 +10,50 @@ export const theme = createTheme({
 		MuiButton: {
 			variants: [
 				{
-					props: { variant: 'contained' },
+					props: { variant: 'contained', type: 'submit' },
 					style: {
 						backgroundColor: '#fba4b3',
 						color: '#fff',
 						boxShadow: 'none',
 						width: 150,
 						borderRadius: 10,
+					},
+				},
+				{
+					props: { variant: 'outlined' },
+					style: {
+						backgroundColor: '#fff',
+						color: '#000',
+						boxShadow: 'none',
+						height: 25,
+						width: 90,
+						fontWeight: 100,
+						textTransform: 'none',
+						borderRadius: 10,
+						border: '2px solid #024d02',
+						':hover': {
+							borderWidth: 2,
+							backgroundColor: '#f3f3f3',
+						},
+					},
+				},
+				{
+					props: { variant: 'contained', type: 'button' },
+					style: {
+						backgroundColor: '#19adbd',
+						color: '#fff',
+						boxShadow: 'none',
+						fontSize: 20,
+						height: 70,
+						width: 70,
+						boxSizing: 'border-box',
+						fontWeight: 400,
+						borderRadius: 5,
+						border: '2px solid #024d02',
+						':hover': {
+							borderWidth: 2,
+							backgroundColor: '#21d0e3',
+						},
 					},
 				},
 			],

@@ -1,0 +1,28 @@
+.calendar {
+	width: 100%;
+}
+
+.calendar-header {
+	height: 80px;
+	background-color: #19adbd;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.calendar-header__title {
+	color: #fff;
+	font-size: 21px;
+	font-family: 'Roboto';
+}
+.calendar-header__button {
+	position: absolute;
+	right: 30px;
+}
+
+.calendar-body__grid {
+	width: 600px !important;
+}
+
+.notPresentMonth {
+	color: #636363 !important;
+}
