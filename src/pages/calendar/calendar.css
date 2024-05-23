@@ -12,7 +12,6 @@
 .calendar-header__title {
 	color: #fff;
 	font-size: 21px;
-	font-family: 'Roboto';
 }
 .calendar-header__button {
 	position: absolute;
@@ -20,20 +19,51 @@
 }
 
 .calendar-body {
+	box-sizing: border-box;
 	padding: 20px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.calendar-body__wrapper {
+	width: 50%;
+	overflow: hidden;
+	height: 100%;
+}
+
+.calendar-body__create-task {
+	position: absolute !important;
+	width: 120px;
+	height: 120px;
+	border-radius: 60px !important;
+	font-size: 100px !important;
+	background-color: #19adbd !important;
+	color: #fff !important;
+	right: 30px;
+	bottom: 30px;
 }
 
 .calendar-body__grid {
-	width: 50% !important;
+	width: 90% !important;
 }
 
 .calendar-body__options {
-	width: 40%;
+	width: 80%;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
 }
 
-.notPresentMonth {
+.not-present-month {
 	color: #636363 !important;
+}
+
+.is-tasks {
+	color: #4d4d4d;
+	font-size: smaller !important;
+	position: absolute;
+	right: 0;
+	bottom: 0;
 }

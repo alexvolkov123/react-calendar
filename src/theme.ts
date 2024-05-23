@@ -5,6 +5,9 @@ export const theme = createTheme({
 		primary: {
 			main: '#4d4d4d',
 		},
+		secondary: {
+			main: '#19adbd',
+		},
 	},
 	components: {
 		MuiButton: {
@@ -17,6 +20,9 @@ export const theme = createTheme({
 						boxShadow: 'none',
 						width: 150,
 						borderRadius: 10,
+						':hover': {
+							backgroundColor: '#fba4b3',
+						},
 					},
 				},
 				{
@@ -97,6 +103,29 @@ export const theme = createTheme({
 				},
 				icon: {
 					fontSize: 40,
+				},
+			},
+		},
+		MuiDialog: {
+			styleOverrides: {
+				root: {
+					boxSizing: 'border-box',
+					backgroundColor: 'transparent',
+				},
+				container: {
+					padding: 20,
+				},
+			},
+		},
+		MuiPaper: {
+			styleOverrides: {
+				root: {
+					boxSizing: 'border-box',
+					padding: 20,
+					minHeight: 370,
+					minWidth: 240,
+					borderRadius: 15,
+					overflow: 'hidden',
 				},
 			},
 		},
