@@ -4,11 +4,10 @@ export interface ISelect {
 }
 
 export interface IUser {
-	id: string
 	username: string
 	email: string
 	password: string
-	tasks?: ITask[]
+	tasks: ITask[]
 }
 
 export interface ITask {
@@ -28,4 +27,14 @@ export interface IEditDialogProps {
 	setTasks: any
 	open: boolean
 	onClose: () => void
+}
+
+export interface UserContext {
+	removeUser: () => void
+	addUser: (user: IUser) => void
+	getUser: () => IUser
+	getUserTasks: () => ITask[] | []
+	setUserTasks: (tasks: ITask[]) => void
+	getIsLoggedIn: () => boolean
+	setIsLoggedIn: (value: boolean) => void
 }

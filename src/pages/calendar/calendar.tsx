@@ -1,5 +1,5 @@
 import { Circle } from '@mui/icons-material'
-import { Button, Grid, Link } from '@mui/material'
+import { Button, Grid } from '@mui/material'
 import {
 	eachDayOfInterval,
 	endOfMonth,
@@ -10,22 +10,26 @@ import {
 	startOfToday,
 	startOfWeek,
 } from 'date-fns'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import MonthSelect from '../../components/month-select/month-select'
 import { CreateDialog } from '../../components/popup/create/create.dialog'
 import { EditDialog } from '../../components/popup/edit/edit.dialog'
 import YearSelect from '../../components/year-select/year-select'
+import { Context } from '../../context'
 import { ITask } from '../../types/types'
 import './calendar.css'
 
 setDefaultOptions({ weekStartsOn: 1 })
 
 export default function Calendar() {
+	const { setUserTasks, setIsLoggedIn, getUserTasks } = useContext(Context)
+	const navigate = useNavigate()
+
 	const [isCreateDialog, setIsCreateDialog] = useState(false)
 	const [isEditDialog, setIsEditDialog] = useState(false)
 
-	const [tasks, setTasks] = useState<ITask[]>([])
 	const [today, setToday] = useState(startOfToday())
 
 	function getDays() {
@@ -36,16 +40,26 @@ export default function Calendar() {
 	}
 
 	function isExistEditedTasks(day: Date) {
-		return (
-			tasks.filter(
-				task => format(task.date, 'yyyy MM dd') === format(day, 'yyyy MM dd')
-			).length > 0
-		)
+		if (getUserTasks()) {
+			console.log(getUserTasks())
+
+			return (
+				getUserTasks().filter(
+					task => format(task.date, 'yyyy MM dd') === format(day, 'yyyy MM dd')
+				).length > 0
+			)
+		}
+		return false
 	}
 
 	function closeCreateDialog(task?: ITask) {
 		setIsCreateDialog(false)
-		task && setTasks([...tasks, task])
+		task && setUserTasks([...getUserTasks(), task])
+	}
+
+	function logout() {
+		setIsLoggedIn(false)
+		navigate('/login')
 	}
 
 	return (
@@ -53,9 +67,9 @@ export default function Calendar() {
 			<div className='calendar-header'>
 				<div className='calendar-header__title'>Calendar Application</div>
 				<div className='calendar-header__button'>
-					<Link href='/login'>
-						<Button variant='outlined'>Logout</Button>
-					</Link>
+					<Button variant='outlined' onClick={() => logout()}>
+						Logout
+					</Button>
 				</div>
 			</div>
 			<div className='calendar-body'>
@@ -93,8 +107,8 @@ export default function Calendar() {
 					<CreateDialog open={isCreateDialog} onClose={closeCreateDialog} />
 					<EditDialog
 						open={isEditDialog}
-						tasks={tasks}
-						setTasks={setTasks}
+						tasks={getUserTasks()}
+						setTasks={setUserTasks}
 						onClose={() => setIsEditDialog(false)}
 					/>
 				</div>

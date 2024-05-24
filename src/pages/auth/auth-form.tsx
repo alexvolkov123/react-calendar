@@ -1,35 +1,68 @@
-import { SubmitHandler, useForm } from 'react-hook-form'
-import './auth-form.css'
-
 import { Button, Link, Stack, TextField, Typography } from '@mui/material'
+import { useContext } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+
+import { Context } from '../../context'
+import { IUser } from '../../types/types'
 import {
 	emailValidation,
 	passwordValidation,
 	userNameValidation,
 } from '../../validation'
-
-interface IAuthForm {
-	userName: string
-	email: string
-	password: string
-}
+import './auth-form.css'
 
 interface IAuthFormType {
 	formType: 'login' | 'register'
 }
 
 export default function AuthForm({ formType }: IAuthFormType) {
+	const navigate = useNavigate()
+	const { addUser, setIsLoggedIn } = useContext(Context)
+
 	const {
 		register,
 		handleSubmit,
+		reset,
 		formState: { errors, isValid },
-	} = useForm<IAuthForm>({
+	} = useForm<IUser>({
 		mode: 'all',
 		shouldFocusError: false,
 	})
 
-	const onSubmit: SubmitHandler<IAuthForm> = (data: IAuthForm) => {
-		console.log(data)
+	function getUserFromStorage(email: string): IUser | null {
+		return localStorage.getItem(email)
+			? JSON.parse(localStorage.getItem(email)!)
+			: null
+	}
+
+	const onSubmit: SubmitHandler<IUser> = (data: IUser) => {
+		switch (formType) {
+			case 'login': {
+				const user: IUser = JSON.parse(localStorage.getItem(data.email)!)
+				if (user && data.password === user.password) {
+					addUser(user)
+					setIsLoggedIn(true)
+					navigate('/calendar')
+					/* TODO: notification success */
+				} else {
+					/* TODO: notification error */
+				}
+				break
+			}
+			case 'register': {
+				if (getUserFromStorage(data.email)) {
+					/* TODO: notification error */
+				} else {
+					addUser({ ...data, tasks: [] })
+					setIsLoggedIn(true)
+					/* TODO: notification success */
+					navigate('/calendar')
+				}
+				break
+			}
+		}
+		reset()
 	}
 
 	return (
@@ -40,13 +73,13 @@ export default function AuthForm({ formType }: IAuthFormType) {
 						<Typography fontSize={20} color='primary'>
 							{formType === 'login' ? 'Sign In' : 'Sign Up'}
 						</Typography>
-						{formType === 'login' && (
+						{formType === 'register' && (
 							<TextField
-								{...register('userName', userNameValidation)}
+								{...register('username', userNameValidation)}
 								label='Username'
 								variant='outlined'
-								error={!!errors.userName}
-								helperText={errors.userName?.message}
+								error={!!errors.username}
+								helperText={errors.username?.message}
 							/>
 						)}
 						<TextField
