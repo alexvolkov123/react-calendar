@@ -38,3 +38,8 @@ export interface UserContext {
 	getIsLoggedIn: () => boolean
 	setIsLoggedIn: (value: boolean) => void
 }
+
+export const notifyTypes = {
+	error: 'error',
+	success: 'success',
+}

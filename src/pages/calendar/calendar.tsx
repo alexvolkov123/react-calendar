@@ -18,7 +18,8 @@ import { CreateDialog } from '../../components/popup/create/create.dialog'
 import { EditDialog } from '../../components/popup/edit/edit.dialog'
 import YearSelect from '../../components/year-select/year-select'
 import { Context } from '../../context'
-import { ITask } from '../../types/types'
+import { notify } from '../../services/notify.service'
+import { ITask, notifyTypes } from '../../types/types'
 import './calendar.css'
 
 setDefaultOptions({ weekStartsOn: 1 })
@@ -41,8 +42,6 @@ export default function Calendar() {
 
 	function isExistEditedTasks(day: Date) {
 		if (getUserTasks()) {
-			console.log(getUserTasks())
-
 			return (
 				getUserTasks().filter(
 					task => format(task.date, 'yyyy MM dd') === format(day, 'yyyy MM dd')
@@ -59,6 +58,7 @@ export default function Calendar() {
 
 	function logout() {
 		setIsLoggedIn(false)
+		notify('You are logged out', notifyTypes.success)
 		navigate('/login')
 	}
 

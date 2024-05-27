@@ -2,7 +2,8 @@ import { RemoveCircleOutlineRounded } from '@mui/icons-material'
 import { Dialog, IconButton } from '@mui/material'
 import { format } from 'date-fns'
 
-import { IEditDialogProps } from '../../../types/types'
+import { notify } from '../../../services/notify.service'
+import { IEditDialogProps, notifyTypes } from '../../../types/types'
 import './edit.dialog.css'
 
 export function EditDialog(props: IEditDialogProps) {
@@ -12,6 +13,7 @@ export function EditDialog(props: IEditDialogProps) {
 		const newTasks = tasks.filter(task => task.id !== id)
 
 		setTasks(newTasks)
+		notify('You successfully deleted this task', notifyTypes.error)
 
 		newTasks.length === 0 && onClose()
 	}

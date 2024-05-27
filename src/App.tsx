@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { RouterProvider } from 'react-router-dom'
+import 'react-toastify/dist/ReactToastify.css'
 
+import { ToastContainer, Zoom } from 'react-toastify'
 import { Context } from './context'
 import { router } from './router'
 import { ITask, IUser } from './types/types'
@@ -52,6 +54,16 @@ export default function App() {
 			}}
 		>
 			<RouterProvider router={router} />
+			<ToastContainer
+				position={'bottom-right'}
+				autoClose={3}
+				hideProgressBar={false}
+				closeOnClick={true}
+				pauseOnHover={true}
+				draggable={true}
+				theme={'light'}
+				transition={Zoom}
+			/>
 		</Context.Provider>
 	)
 }

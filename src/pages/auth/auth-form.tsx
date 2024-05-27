@@ -4,7 +4,8 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 import { Context } from '../../context'
-import { IUser } from '../../types/types'
+import { notify } from '../../services/notify.service'
+import { IUser, notifyTypes } from '../../types/types'
 import {
 	emailValidation,
 	passwordValidation,
@@ -40,23 +41,28 @@ export default function AuthForm({ formType }: IAuthFormType) {
 		switch (formType) {
 			case 'login': {
 				const user: IUser = JSON.parse(localStorage.getItem(data.email)!)
-				if (user && data.password === user.password) {
+				if (!user) {
+					notify('User is not found', notifyTypes.error)
+				} else if (data.password !== user.password) {
+					notify('The password doesn`t match', notifyTypes.error)
+				} else {
 					addUser(user)
 					setIsLoggedIn(true)
 					navigate('/calendar')
-					/* TODO: notification success */
-				} else {
-					/* TODO: notification error */
+					notify('You are logged in', notifyTypes.success)
 				}
 				break
 			}
 			case 'register': {
 				if (getUserFromStorage(data.email)) {
-					/* TODO: notification error */
+					notify(
+						'An account with the same email address already exists',
+						notifyTypes.error
+					)
 				} else {
 					addUser({ ...data, tasks: [] })
 					setIsLoggedIn(true)
-					/* TODO: notification success */
+					notify('You are registered', notifyTypes.success)
 					navigate('/calendar')
 				}
 				break

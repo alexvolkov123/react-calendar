@@ -2,7 +2,8 @@ import { Button, Dialog, Stack, TextField, Typography } from '@mui/material'
 
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
-import { ICreateDialogProps, ITask } from '../../../types/types'
+import { notify } from '../../../services/notify.service'
+import { ICreateDialogProps, ITask, notifyTypes } from '../../../types/types'
 
 export function CreateDialog(props: ICreateDialogProps) {
 	const { onClose, open } = props
@@ -22,6 +23,7 @@ export function CreateDialog(props: ICreateDialogProps) {
 
 	const onSubmit: SubmitHandler<ITask> = (data: ITask) => {
 		reset()
+		notify('You successfully created the task', notifyTypes.success)
 		return onClose({ ...data, id })
 	}
 
