@@ -24,19 +24,18 @@ export interface ICreateDialogProps {
 
 export interface IEditDialogProps {
 	tasks: ITask[]
-	setTasks: any
 	open: boolean
 	onClose: () => void
 }
 
-export interface UserContext {
+export interface IUserContext {
 	removeUser: () => void
-	addUser: (user: IUser) => void
-	getUser: () => IUser
-	getUserTasks: () => ITask[] | []
+	addUser: (email: string) => void
+	registerUser: (user: IUser) => void
+	getUserTasks: () => ITask[]
 	setUserTasks: (tasks: ITask[]) => void
-	getIsLoggedIn: () => boolean
-	setIsLoggedIn: (value: boolean) => void
+	isUserExist: (email: string) => boolean
+	isPasswordMatch: (user: IUser) => boolean
 }
 
 export const notifyTypes = {

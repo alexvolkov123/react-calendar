@@ -18,7 +18,6 @@ export default function MonthSelect({ today, setToday }: ISelect) {
 	return (
 		<Select
 			value={getMonths()[today.getMonth()].toISOString()}
-			placeholder={format(today, 'MMMM')}
 			onChange={e => handleChangeMonth(new Date(e.target.value))}
 		>
 			{getMonths().map((month, index) => (

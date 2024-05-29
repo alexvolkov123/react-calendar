@@ -59,11 +59,3 @@
 .not-present-month {
 	color: #636363 !important;
 }
-
-.is-tasks {
-	color: #4d4d4d;
-	font-size: smaller !important;
-	position: absolute;
-	right: 0;
-	bottom: 0;
-}

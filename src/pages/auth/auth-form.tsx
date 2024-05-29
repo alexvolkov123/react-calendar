@@ -3,9 +3,9 @@ import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
-import { Context } from '../../context'
 import { notify } from '../../services/notify.service'
 import { IUser, notifyTypes } from '../../types/types'
+import { UserContext } from '../../user.context'
 import {
 	emailValidation,
 	passwordValidation,
@@ -19,7 +19,8 @@ interface IAuthFormType {
 
 export default function AuthForm({ formType }: IAuthFormType) {
 	const navigate = useNavigate()
-	const { addUser, setIsLoggedIn } = useContext(Context)
+	const { addUser, registerUser, isUserExist, isPasswordMatch } =
+		useContext(UserContext)
 
 	const {
 		register,
@@ -30,41 +31,39 @@ export default function AuthForm({ formType }: IAuthFormType) {
 		mode: 'all',
 		shouldFocusError: false,
 	})
+	function signIn(user: IUser) {
+		if (!isUserExist(user.email)) {
+			notify('User is not found', notifyTypes.error)
+		} else if (!isPasswordMatch(user)) {
+			notify('The password doesn`t match', notifyTypes.error)
+		} else {
+			addUser(user.email)
+			navigate('/calendar')
+			notify('You are logged in', notifyTypes.success)
+		}
+	}
 
-	function getUserFromStorage(email: string): IUser | null {
-		return localStorage.getItem(email)
-			? JSON.parse(localStorage.getItem(email)!)
-			: null
+	function signUp(user: IUser) {
+		if (isUserExist(user.email)) {
+			notify(
+				'An account with the same email address already exists',
+				notifyTypes.error
+			)
+		} else {
+			registerUser({ ...user, tasks: [] })
+			notify('You are registered', notifyTypes.success)
+			navigate('/calendar')
+		}
 	}
 
 	const onSubmit: SubmitHandler<IUser> = (data: IUser) => {
 		switch (formType) {
 			case 'login': {
-				const user: IUser = JSON.parse(localStorage.getItem(data.email)!)
-				if (!user) {
-					notify('User is not found', notifyTypes.error)
-				} else if (data.password !== user.password) {
-					notify('The password doesn`t match', notifyTypes.error)
-				} else {
-					addUser(user)
-					setIsLoggedIn(true)
-					navigate('/calendar')
-					notify('You are logged in', notifyTypes.success)
-				}
+				signIn(data)
 				break
 			}
 			case 'register': {
-				if (getUserFromStorage(data.email)) {
-					notify(
-						'An account with the same email address already exists',
-						notifyTypes.error
-					)
-				} else {
-					addUser({ ...data, tasks: [] })
-					setIsLoggedIn(true)
-					notify('You are registered', notifyTypes.success)
-					navigate('/calendar')
-				}
+				signUp(data)
 				break
 			}
 		}

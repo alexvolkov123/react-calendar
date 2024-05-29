@@ -17,21 +17,23 @@ import MonthSelect from '../../components/month-select/month-select'
 import { CreateDialog } from '../../components/popup/create/create.dialog'
 import { EditDialog } from '../../components/popup/edit/edit.dialog'
 import YearSelect from '../../components/year-select/year-select'
-import { Context } from '../../context'
 import { notify } from '../../services/notify.service'
 import { ITask, notifyTypes } from '../../types/types'
+import { UserContext } from '../../user.context'
 import './calendar.css'
 
 setDefaultOptions({ weekStartsOn: 1 })
 
 export default function Calendar() {
-	const { setUserTasks, setIsLoggedIn, getUserTasks } = useContext(Context)
+	const { setUserTasks, removeUser, getUserTasks } = useContext(UserContext)
+
 	const navigate = useNavigate()
 
 	const [isCreateDialog, setIsCreateDialog] = useState(false)
 	const [isEditDialog, setIsEditDialog] = useState(false)
 
 	const [today, setToday] = useState(startOfToday())
+	const [editedDate, setEditedDate] = useState(new Date())
 
 	function getDays() {
 		return eachDayOfInterval({
@@ -51,13 +53,21 @@ export default function Calendar() {
 		return false
 	}
 
+	function getFilteredUserTasks() {
+		return getUserTasks().filter(
+			task =>
+				format(task.date, 'yyyy MM dd') === format(editedDate, 'yyyy MM dd')
+		)
+	}
+
 	function closeCreateDialog(task?: ITask) {
 		setIsCreateDialog(false)
+
 		task && setUserTasks([...getUserTasks(), task])
 	}
 
 	function logout() {
-		setIsLoggedIn(false)
+		removeUser()
 		notify('You are logged out', notifyTypes.success)
 		navigate('/login')
 	}
@@ -95,27 +105,29 @@ export default function Calendar() {
 											? 'not-present-month'
 											: ''
 									}
-									onClick={() => setIsEditDialog(isExistEditedTasks(day))}
+									onClick={() => {
+										setIsEditDialog(isExistEditedTasks(day))
+										setEditedDate(day)
+									}}
 									type='button'
 								>
 									{format(day, 'd')}
-									{isExistEditedTasks(day) && <Circle className={'is-tasks'} />}
+									{isExistEditedTasks(day) && <Circle id='circle' />}
 								</Button>
 							</Grid>
 						))}
 					</Grid>
 					<CreateDialog open={isCreateDialog} onClose={closeCreateDialog} />
 					<EditDialog
+						tasks={getFilteredUserTasks()}
 						open={isEditDialog}
-						tasks={getUserTasks()}
-						setTasks={setUserTasks}
 						onClose={() => setIsEditDialog(false)}
 					/>
 				</div>
 				<div className='calendar-body__wrapper'>
 					<Button
 						className='calendar-body__create-task'
-						onClick={() => setIsCreateDialog(!isCreateDialog)}
+						onClick={() => setIsCreateDialog(true)}
 					>
 						+
 					</Button>
