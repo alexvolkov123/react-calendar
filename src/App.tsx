@@ -1,14 +1,14 @@
+import { CssBaseline, ThemeProvider } from '@mui/material'
 import { RouterProvider } from 'react-router-dom'
+import { ToastContainer, Zoom } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-import { ThemeContext, ThemeProvider } from '@emotion/react'
-import { ToastContainer, Zoom } from 'react-toastify'
+import { ThemeContext, useMode } from './contexts/theme/theme.context'
+import { UserContext, useUser } from './contexts/user/user.context'
 import { router } from './router'
-import { useMode } from './theme.context'
-import { UserContext, useUser } from './user.context'
 
 export default function App() {
-	const { theme, colorMode } = useMode()
+	const { theme, setColorMode, getColorMode } = useMode()
 	const {
 		removeUser,
 		addUser,
@@ -20,8 +20,9 @@ export default function App() {
 	} = useUser()
 
 	return (
-		<ThemeContext.Provider value={colorMode}>
+		<ThemeContext.Provider value={{ setColorMode, getColorMode }}>
 			<ThemeProvider theme={theme}>
+				<CssBaseline />
 				<UserContext.Provider
 					value={{
 						removeUser,
@@ -30,7 +31,6 @@ export default function App() {
 						setUserTasks,
 						registerUser,
 						isUserExist,
-
 						isPasswordMatch,
 					}}
 				>

@@ -3,9 +3,9 @@ import { Dialog, IconButton } from '@mui/material'
 import { format } from 'date-fns'
 import { useContext } from 'react'
 
+import { UserContext } from '../../../contexts/user/user.context'
 import { notify } from '../../../services/notify.service'
 import { IEditDialogProps, notifyTypes } from '../../../types/types'
-import { UserContext } from '../../../user.context'
 import './edit.dialog.css'
 
 export function EditDialog(props: IEditDialogProps) {

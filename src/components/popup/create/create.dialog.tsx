@@ -60,7 +60,7 @@ export function CreateDialog(props: ICreateDialogProps) {
 					<Button
 						disabled={!isValid}
 						variant='contained'
-						color='secondary'
+						id='submitTask'
 						type='submit'
 					>
 						Access

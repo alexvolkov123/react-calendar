@@ -1,5 +1,5 @@
 import { createContext, useState } from 'react'
-import { ITask, IUser, IUserContext } from './types/types'
+import { ITask, IUser, IUserContext } from '../../types/types'
 
 export const useUser = () => {
 	const [tasks, setTasks] = useState<ITask[]>(getCurrentUser().tasks)

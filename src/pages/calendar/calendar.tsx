@@ -1,5 +1,5 @@
 import { Circle } from '@mui/icons-material'
-import { Button, Grid } from '@mui/material'
+import { Button, Container, Grid } from '@mui/material'
 import {
 	eachDayOfInterval,
 	endOfMonth,
@@ -16,10 +16,11 @@ import { useNavigate } from 'react-router-dom'
 import MonthSelect from '../../components/month-select/month-select'
 import { CreateDialog } from '../../components/popup/create/create.dialog'
 import { EditDialog } from '../../components/popup/edit/edit.dialog'
+import ThemeSelect from '../../components/theme-select/theme-select'
 import YearSelect from '../../components/year-select/year-select'
+import { UserContext } from '../../contexts/user/user.context'
 import { notify } from '../../services/notify.service'
 import { ITask, notifyTypes } from '../../types/types'
-import { UserContext } from '../../user.context'
 import './calendar.css'
 
 setDefaultOptions({ weekStartsOn: 1 })
@@ -74,63 +75,67 @@ export default function Calendar() {
 
 	return (
 		<div className='calendar'>
-			<div className='calendar-header'>
+			<Container className='calendar-header' id='header'>
 				<div className='calendar-header__title'>Calendar Application</div>
 				<div className='calendar-header__button'>
 					<Button variant='outlined' onClick={() => logout()}>
 						Logout
 					</Button>
 				</div>
-			</div>
+			</Container>
 			<div className='calendar-body'>
 				<div className='calendar-body__wrapper'>
-					<div className='calendar-body__options'>
-						<YearSelect today={today} setToday={setToday} />
-						<MonthSelect today={today} setToday={setToday} />
+					<div className='calendar-body__table'>
+						<div className='calendar-body__options'>
+							<YearSelect today={today} setToday={setToday} />
+							<MonthSelect today={today} setToday={setToday} />
+						</div>
+						<Grid
+							className='calendar-body__grid'
+							container
+							direction={'row'}
+							spacing={2}
+							columns={7}
+							gridTemplateRows={6}
+						>
+							{getDays().map(day => (
+								<Grid item key={day.toISOString()}>
+									<Button
+										variant='contained'
+										className={
+											day.getMonth() !== today.getMonth()
+												? 'not-present-month'
+												: ''
+										}
+										onClick={() => {
+											setIsEditDialog(isExistEditedTasks(day))
+											setEditedDate(day)
+										}}
+										type='button'
+									>
+										{format(day, 'd')}
+										{isExistEditedTasks(day) && <Circle id='circle' />}
+									</Button>
+								</Grid>
+							))}
+						</Grid>
+						<CreateDialog open={isCreateDialog} onClose={closeCreateDialog} />
+						<EditDialog
+							tasks={getFilteredUserTasks()}
+							open={isEditDialog}
+							onClose={() => setIsEditDialog(false)}
+						/>
 					</div>
-					<Grid
-						className='calendar-body__grid'
-						container
-						direction={'row'}
-						spacing={2}
-						columns={7}
-						gridTemplateRows={6}
-					>
-						{getDays().map(day => (
-							<Grid item key={day.toISOString()}>
-								<Button
-									variant='contained'
-									className={
-										day.getMonth() !== today.getMonth()
-											? 'not-present-month'
-											: ''
-									}
-									onClick={() => {
-										setIsEditDialog(isExistEditedTasks(day))
-										setEditedDate(day)
-									}}
-									type='button'
-								>
-									{format(day, 'd')}
-									{isExistEditedTasks(day) && <Circle id='circle' />}
-								</Button>
-							</Grid>
-						))}
-					</Grid>
-					<CreateDialog open={isCreateDialog} onClose={closeCreateDialog} />
-					<EditDialog
-						tasks={getFilteredUserTasks()}
-						open={isEditDialog}
-						onClose={() => setIsEditDialog(false)}
-					/>
-				</div>
-				<div className='calendar-body__wrapper'>
-					<Button
-						className='calendar-body__create-task'
-						onClick={() => setIsCreateDialog(true)}
-					>
-						+
-					</Button>
+					<div className='calendar-body__theme'>
+						<ThemeSelect></ThemeSelect>
+						<Button
+							id='createTask'
+							className='calendar-body__create-task'
+							onClick={() => setIsCreateDialog(true)}
+						>
+							+
+						</Button>
+					</div>
 				</div>
 			</div>
 		</div>

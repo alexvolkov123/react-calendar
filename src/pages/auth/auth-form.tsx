@@ -3,9 +3,9 @@ import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
+import { UserContext } from '../../contexts/user/user.context'
 import { notify } from '../../services/notify.service'
 import { IUser, notifyTypes } from '../../types/types'
-import { UserContext } from '../../user.context'
 import {
 	emailValidation,
 	passwordValidation,
@@ -103,7 +103,12 @@ export default function AuthForm({ formType }: IAuthFormType) {
 							helperText={errors.password?.message}
 						/>
 
-						<Button disabled={!isValid} variant='contained' type='submit'>
+						<Button
+							disabled={!isValid}
+							id='auth'
+							variant='contained'
+							type='submit'
+						>
 							Access
 						</Button>
 					</Stack>
