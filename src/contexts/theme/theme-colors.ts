@@ -1,4 +1,6 @@
-export const getThemeColors = (mode: string) => ({
+import { themeTypes } from '../../types/types'
+
+export const getThemeColors = (mode: themeTypes) => ({
 	...(mode === 'blue' && {
 		theme: {
 			DEFAULT: '#19adbd',

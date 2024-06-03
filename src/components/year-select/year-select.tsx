@@ -6,10 +6,10 @@ import { ISelect } from '../../types/types'
 import './year-select.css'
 
 export default function YearSelect({ today, setToday }: ISelect) {
-	function handleChangeYear(changeYear: boolean) {
-		!changeYear
-			? setToday(sub(today, { years: 1 }))
-			: setToday(add(today, { years: 1 }))
+	function handleChangeYear(addYear: boolean) {
+		addYear
+			? setToday(add(today, { years: 1 }))
+			: setToday(sub(today, { years: 1 }))
 	}
 	return (
 		<div className='year-select'>

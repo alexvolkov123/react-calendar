@@ -196,9 +196,14 @@ export const themeSettings: any = (mode: themeTypes) => {
 }
 
 export const useMode = () => {
-	const [mode, setMode] = useState<themeTypes>('blue')
+	const [mode, setMode] = useState<themeTypes>(
+		(localStorage.getItem('mode') as themeTypes) || 'blue'
+	)
 
-	const setColorMode = (mode: themeTypes) => setMode(mode)
+	const setColorMode = (mode: themeTypes) => {
+		setMode(mode)
+		localStorage.setItem('mode', mode)
+	}
 
 	const theme = useMemo(() => createTheme(themeSettings(mode)), [mode])
 

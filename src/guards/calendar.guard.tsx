@@ -5,10 +5,10 @@ import Calendar from '../pages/calendar/calendar'
 export default function CalendarGuard() {
 	return (
 		<>
-			{localStorage.getItem('currentUser') ? (
-				<Calendar />
-			) : (
+			{localStorage.getItem('currentUser') === '{}' ? (
 				<Navigate to={'/login'} />
+			) : (
+				<Calendar />
 			)}
 		</>
 	)
