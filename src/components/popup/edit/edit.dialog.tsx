@@ -1,16 +1,15 @@
 import { RemoveCircleOutlineRounded } from '@mui/icons-material'
 import { Dialog, IconButton } from '@mui/material'
 import { format } from 'date-fns'
-import { useContext } from 'react'
 
-import { UserContext } from '../../../contexts/user/user.context'
+import { useUser } from '../../../hooks/useUser'
 import { notify } from '../../../services/notify.service'
 import { IEditDialogProps, notifyTypes } from '../../../types/types'
 import './edit.dialog.css'
 
 export function EditDialog(props: IEditDialogProps) {
 	const { open, onClose, tasks } = props
-	const { getUserTasks, setUserTasks } = useContext(UserContext)
+	const { getUserTasks, setUserTasks } = useUser()
 
 	function deleteTask(id: string) {
 		const newTasks = getUserTasks().filter(task => task.id !== id)

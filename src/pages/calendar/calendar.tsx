@@ -10,7 +10,7 @@ import {
 	startOfToday,
 	startOfWeek,
 } from 'date-fns'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import MonthSelect from '../../components/month-select/month-select'
@@ -18,7 +18,7 @@ import { CreateDialog } from '../../components/popup/create/create.dialog'
 import { EditDialog } from '../../components/popup/edit/edit.dialog'
 import ThemeSelect from '../../components/theme-select/theme-select'
 import YearSelect from '../../components/year-select/year-select'
-import { UserContext } from '../../contexts/user/user.context'
+import { useUser } from '../../hooks/useUser'
 import { notify } from '../../services/notify.service'
 import { ITask, notifyTypes } from '../../types/types'
 import './calendar.css'
@@ -26,7 +26,7 @@ import './calendar.css'
 setDefaultOptions({ weekStartsOn: 1 })
 
 export default function Calendar() {
-	const { setUserTasks, removeUser, getUserTasks } = useContext(UserContext)
+	const { setUserTasks, removeUser, getUserTasks } = useUser()
 
 	const navigate = useNavigate()
 

@@ -3,37 +3,19 @@ import { RouterProvider } from 'react-router-dom'
 import { ToastContainer, Zoom } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
+import { Provider } from 'react-redux'
 import { ThemeContext, useMode } from './contexts/theme/theme.context'
-import { UserContext, useUser } from './contexts/user/user.context'
 import { router } from './router'
+import { store } from './store/store'
 
 export default function App() {
 	const { theme, setColorMode, getColorMode } = useMode()
-	const {
-		removeUser,
-		addUser,
-		getUserTasks,
-		setUserTasks,
-		registerUser,
-		isUserExist,
-		isPasswordMatch,
-	} = useUser()
 
 	return (
 		<ThemeContext.Provider value={{ setColorMode, getColorMode }}>
-			<ThemeProvider theme={theme}>
-				<CssBaseline />
-				<UserContext.Provider
-					value={{
-						removeUser,
-						addUser,
-						getUserTasks,
-						setUserTasks,
-						registerUser,
-						isUserExist,
-						isPasswordMatch,
-					}}
-				>
+			<Provider store={store}>
+				<ThemeProvider theme={theme}>
+					<CssBaseline />
 					<RouterProvider router={router} />
 					<ToastContainer
 						position={'bottom-right'}
@@ -45,8 +27,8 @@ export default function App() {
 						theme={'light'}
 						transition={Zoom}
 					/>
-				</UserContext.Provider>
-			</ThemeProvider>
+				</ThemeProvider>
+			</Provider>
 		</ThemeContext.Provider>
 	)
 }

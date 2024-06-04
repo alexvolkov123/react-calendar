@@ -1,9 +1,8 @@
 import { Button, Link, Stack, TextField, Typography } from '@mui/material'
-import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
-import { UserContext } from '../../contexts/user/user.context'
+import { useUser } from '../../hooks/useUser'
 import { notify } from '../../services/notify.service'
 import { IUser, notifyTypes } from '../../types/types'
 import {
@@ -19,8 +18,7 @@ interface IAuthFormType {
 
 export default function AuthForm({ formType }: IAuthFormType) {
 	const navigate = useNavigate()
-	const { addUser, registerUser, isUserExist, isPasswordMatch } =
-		useContext(UserContext)
+	const { addUser, registerUser, isUserExist, isPasswordMatch } = useUser()
 
 	const {
 		register,

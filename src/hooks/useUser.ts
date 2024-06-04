@@ -1,25 +1,38 @@
-import { createContext, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import {
+	createActionAddUser,
+	createActionSetUserTasks,
+} from '../store/action-creators/user'
+import { ITask, IUser } from '../types/types'
+import { useTypedSelector } from './useTypedSelector'
 
-import { ITask, IUser, IUserContext } from '../../types/types'
-
-export const useUser = () => {
-	const [tasks, setTasks] = useState<ITask[]>(getCurrentUser().tasks)
+export function useUser() {
+	const dispatch = useDispatch()
+	const tasks = useTypedSelector(state => state.user.tasks)
 
 	function addUser(email: string) {
 		setCurrentUser(getUserByEmail(email))
-		setTasks(getCurrentUser().tasks)
+		setUserTasks(getUserByEmail(email).tasks)
 	}
+
 	function registerUser(user: IUser) {
 		setCurrentUser(user)
 		addUserToUsers(user.email)
 	}
 
-	function getCurrentUser() {
+	function removeUser() {
+		updateUsers(getCurrentUser().email)
+		setCurrentUser({} as IUser)
+		setUserTasks([])
+	}
+
+	function getCurrentUser(): IUser {
 		return localStorage.getItem('currentUser')
 			? JSON.parse(localStorage.getItem('currentUser')!)
 			: {}
 	}
 	function setCurrentUser(user: IUser) {
+		dispatch(createActionAddUser(user))
 		localStorage.setItem('currentUser', JSON.stringify(user))
 	}
 
@@ -54,21 +67,15 @@ export const useUser = () => {
 		)
 	}
 
-	function removeUser() {
-		updateUsers(getCurrentUser().email)
-		setCurrentUser({} as IUser)
-		setTasks([])
-	}
-
-	function getUserTasks() {
-		return tasks ? tasks : getCurrentUser().tasks
+	function getUserTasks(): ITask[] {
+		return tasks || getCurrentUser().tasks
 	}
 	function setUserTasks(tasks: ITask[]) {
 		localStorage.setItem(
 			'currentUser',
 			JSON.stringify({ ...getCurrentUser(), tasks })
 		)
-		setTasks(tasks)
+		dispatch(createActionSetUserTasks(tasks))
 	}
 
 	function isPasswordMatch(user: IUser) {
@@ -85,5 +92,3 @@ export const useUser = () => {
 		isPasswordMatch,
 	}
 }
-
-export const UserContext = createContext<IUserContext>({} as IUserContext)

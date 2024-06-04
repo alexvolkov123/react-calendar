@@ -28,16 +28,6 @@ export interface IEditDialogProps {
 	onClose: () => void
 }
 
-export interface IUserContext {
-	removeUser: () => void
-	addUser: (email: string) => void
-	registerUser: (user: IUser) => void
-	getUserTasks: () => ITask[]
-	setUserTasks: (tasks: ITask[]) => void
-	isUserExist: (email: string) => boolean
-	isPasswordMatch: (user: IUser) => boolean
-}
-
 export const notifyTypes = {
 	error: 'error',
 	success: 'success',
