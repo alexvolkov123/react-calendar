@@ -3,7 +3,9 @@ import { Button, Dialog, Stack, TextField, Typography } from '@mui/material'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
 import { notify } from '../../../services/notify.service'
-import { ICreateDialogProps, ITask, notifyTypes } from '../../../types/types'
+import { notifyTypes } from '../../../types/notify'
+import { ICreateDialogProps } from '../../../types/props'
+import { ITask } from '../../../types/types'
 
 export function CreateDialog(props: ICreateDialogProps) {
 	const { onClose, open } = props

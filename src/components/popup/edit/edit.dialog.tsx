@@ -4,7 +4,9 @@ import { format } from 'date-fns'
 
 import { useUser } from '../../../hooks/useUser'
 import { notify } from '../../../services/notify.service'
-import { IEditDialogProps, notifyTypes } from '../../../types/types'
+import { notifyTypes } from '../../../types/notify'
+import { IEditDialogProps } from '../../../types/props'
+import {} from '../../../types/types'
 import './edit.dialog.css'
 
 export function EditDialog(props: IEditDialogProps) {

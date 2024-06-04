@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom'
 
 import { useUser } from '../../hooks/useUser'
 import { notify } from '../../services/notify.service'
-import { IUser, notifyTypes } from '../../types/types'
+import { notifyTypes } from '../../types/notify'
+import { IUser } from '../../types/types'
 import {
 	emailValidation,
 	passwordValidation,

@@ -1,10 +1,9 @@
 import { MenuItem, Select } from '@mui/material'
-import { useContext } from 'react'
-import { ThemeContext } from '../../contexts/theme/theme.context'
-import { themeTypes } from '../../types/types'
+import { useMode } from '../../hooks/useMode'
+import { themeTypes } from '../../types/theme'
 
 export default function ThemeSelect() {
-	const { getColorMode, setColorMode } = useContext(ThemeContext)
+	const { getColorMode, setColorMode } = useMode()
 	const modes: themeTypes[] = ['blue', 'black', 'yellow']
 
 	function handleChangeTheme(mode: themeTypes) {

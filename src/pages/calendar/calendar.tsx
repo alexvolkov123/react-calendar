@@ -20,7 +20,8 @@ import ThemeSelect from '../../components/theme-select/theme-select'
 import YearSelect from '../../components/year-select/year-select'
 import { useUser } from '../../hooks/useUser'
 import { notify } from '../../services/notify.service'
-import { ITask, notifyTypes } from '../../types/types'
+import { notifyTypes } from '../../types/notify'
+import { ITask } from '../../types/types'
 import './calendar.css'
 
 setDefaultOptions({ weekStartsOn: 1 })

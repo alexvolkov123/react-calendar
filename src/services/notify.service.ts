@@ -1,5 +1,5 @@
 import { Zoom, toast } from 'react-toastify'
-import { notifyTypes } from '../types/types'
+import { notifyTypes } from '../types/notify'
 
 export function notify(text: string, type: string) {
 	const notifyConfig = {

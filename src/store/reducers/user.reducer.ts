@@ -17,4 +17,5 @@ export const userReducer = (
 			return { ...state, tasks: [...action.payload] }
 		}
 	}
+	return state
 }

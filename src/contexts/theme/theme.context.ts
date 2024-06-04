@@ -1,6 +1,4 @@
-import { createTheme } from '@mui/material'
-import { createContext, useMemo, useState } from 'react'
-import { IThemeContext, themeTypes } from '../../types/types'
+import { themeTypes } from '../../types/theme'
 import { getThemeColors } from './theme-colors'
 
 export const themeSettings: any = (mode: themeTypes) => {
@@ -194,23 +192,3 @@ export const themeSettings: any = (mode: themeTypes) => {
 	}
 	return theme
 }
-
-export const useMode = () => {
-	const [mode, setMode] = useState<themeTypes>(
-		(localStorage.getItem('mode') as themeTypes) || 'blue'
-	)
-
-	const setColorMode = (mode: themeTypes) => {
-		setMode(mode)
-		localStorage.setItem('mode', mode)
-	}
-
-	const theme = useMemo(() => createTheme(themeSettings(mode)), [mode])
-
-	function getColorMode() {
-		return mode
-	}
-
-	return { theme, setColorMode, getColorMode }
-}
-export const ThemeContext = createContext<IThemeContext>({} as IThemeContext)
