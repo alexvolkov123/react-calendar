@@ -18,8 +18,8 @@ export function useUser() {
 
 	function removeUser() {
 		updateUsers(getCurrentUser().email)
-		setCurrentUser({} as IUser)
 		setUserTasks([])
+		setCurrentUser({} as IUser)
 	}
 
 	function getCurrentUser(): IUser {
