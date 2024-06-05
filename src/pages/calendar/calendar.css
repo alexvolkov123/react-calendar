@@ -52,6 +52,9 @@
 	padding-top: 105px;
 }
 
-.not-present-month {
+.calendar-body__grid-button_not-present-month {
 	color: #636363 !important;
+}
+.calendar-body__grid-button_today {
+	border: 2px solid rgb(204, 3, 3) !important;
 }

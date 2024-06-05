@@ -33,6 +33,7 @@ export default function Calendar() {
 	const [isCreateDialog, setIsCreateDialog] = useState(false)
 	const [isEditDialog, setIsEditDialog] = useState(false)
 
+	const nowToday = startOfToday()
 	const [today, setToday] = useState(startOfToday())
 	const [editedDate, setEditedDate] = useState(new Date())
 
@@ -65,6 +66,9 @@ export default function Calendar() {
 		setIsCreateDialog(false)
 
 		task && setUserTasks([...getUserTasks(), task])
+	}
+	function isToday(day: Date) {
+		return format(nowToday, 'dd.MM.yyyy') === format(day, 'dd.MM.yyyy')
 	}
 
 	function logout() {
@@ -104,7 +108,9 @@ export default function Calendar() {
 										variant='contained'
 										className={
 											day.getMonth() !== today.getMonth()
-												? 'not-present-month'
+												? 'calendar-body__grid-button_not-present-month'
+												: isToday(day)
+												? 'calendar-body__grid-button_today'
 												: ''
 										}
 										onClick={() => {
