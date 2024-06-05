@@ -34,14 +34,18 @@
 	right: 30px;
 	bottom: 30px;
 }
+.calendar-body__table {
+	min-width: 620px;
+}
 .calendar-body__options {
-	width: 80%;
+	width: 100%;
+	box-sizing: border-box;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
 }
 .calendar-body__grid {
-	width: 90% !important;
+	width: 620px !important;
 }
 
 .calendar-body__theme {
