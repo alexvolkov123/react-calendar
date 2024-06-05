@@ -24,21 +24,25 @@ export function EditDialog(props: IEditDialogProps) {
 
 	return (
 		<Dialog onClose={() => onClose()} open={open}>
-			<div className='dialog-title'>
-				{tasks.length > 0 && format(tasks[0].date, 'dd.MM.yyyy')}
+			<div className={tasks.length === 0 ? 'dialog' : ''}>
+				<div className='dialog-title'>
+					{tasks.length > 0
+						? format(tasks[0].date, 'dd.MM.yyyy')
+						: 'Нет событий'}
+				</div>
+				<ul className='dialog-tasks'>
+					{tasks.map(task => {
+						return (
+							<li className='dialog-task' key={task.id}>
+								<div className='dialog-task__title'>{task.title}</div>
+								<IconButton onClick={() => deleteTask(task.id)}>
+									<RemoveCircleOutlineRounded />
+								</IconButton>
+							</li>
+						)
+					})}
+				</ul>
 			</div>
-			<ul className='dialog-tasks'>
-				{tasks.map(task => {
-					return (
-						<li className='dialog-task' key={task.id}>
-							<div className='dialog-task__title'>{task.title}</div>
-							<IconButton onClick={() => deleteTask(task.id)}>
-								<RemoveCircleOutlineRounded />
-							</IconButton>
-						</li>
-					)
-				})}
-			</ul>
 		</Dialog>
 	)
 }

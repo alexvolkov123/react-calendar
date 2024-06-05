@@ -114,7 +114,7 @@ export default function Calendar() {
 												: ''
 										}
 										onClick={() => {
-											setIsEditDialog(isExistEditedTasks(day))
+											setIsEditDialog(true)
 											setEditedDate(day)
 										}}
 										type='button'
