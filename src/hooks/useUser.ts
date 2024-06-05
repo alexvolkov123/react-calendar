@@ -1,13 +1,9 @@
-import { useDispatch } from 'react-redux'
-import {
-	createActionAddUser,
-	createActionSetUserTasks,
-} from '../store/action-creators/user'
 import { ITask, IUser } from '../types/types'
+import { useActions } from './useActions'
 import { useTypedSelector } from './useTypedSelector'
 
 export function useUser() {
-	const dispatch = useDispatch()
+	const { AddUser, SetUserTasks } = useActions()
 	const tasks = useTypedSelector(state => state.user.tasks)
 
 	function addUser(email: string) {
@@ -32,7 +28,7 @@ export function useUser() {
 			: {}
 	}
 	function setCurrentUser(user: IUser) {
-		dispatch(createActionAddUser(user))
+		AddUser(user)
 		localStorage.setItem('currentUser', JSON.stringify(user))
 	}
 
@@ -75,7 +71,7 @@ export function useUser() {
 			'currentUser',
 			JSON.stringify({ ...getCurrentUser(), tasks })
 		)
-		dispatch(createActionSetUserTasks(tasks))
+		SetUserTasks(tasks)
 	}
 
 	function isPasswordMatch(user: IUser) {
