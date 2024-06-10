@@ -3,38 +3,26 @@ import { RouterProvider } from 'react-router-dom'
 import { ToastContainer, Zoom } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-import { ThemeContext, useMode } from './contexts/theme/theme.context'
-import { UserContext, useUser } from './contexts/user/user.context'
+import { CalendarContext } from './contexts/calendar/calendar-context'
+import { ThemeContext } from './contexts/theme/theme.context'
+import { UserContext } from './contexts/user/user.context'
+import { useCalendar } from './hooks/useCalendar'
+import { useMode } from './hooks/useMode'
+import { useUser } from './hooks/useUser'
 import { router } from './router'
 
-export default function App() {
+export const App = () => {
 	const { theme, setColorMode, getColorMode } = useMode()
-	const {
-		removeUser,
-		addUser,
-		getUserTasks,
-		setUserTasks,
-		registerUser,
-		isUserExist,
-		isPasswordMatch,
-	} = useUser()
 
 	return (
 		<ThemeContext.Provider value={{ setColorMode, getColorMode }}>
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
-				<UserContext.Provider
-					value={{
-						removeUser,
-						addUser,
-						getUserTasks,
-						setUserTasks,
-						registerUser,
-						isUserExist,
-						isPasswordMatch,
-					}}
-				>
-					<RouterProvider router={router} />
+				<UserContext.Provider value={{ ...useUser() }}>
+					<CalendarContext.Provider value={{ ...useCalendar() }}>
+						<RouterProvider router={router} />
+					</CalendarContext.Provider>
+
 					<ToastContainer
 						position={'bottom-right'}
 						autoClose={2}

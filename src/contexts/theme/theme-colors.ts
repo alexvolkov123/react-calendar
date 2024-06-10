@@ -1,4 +1,4 @@
-import { themeTypes } from '../../types/types'
+import { themeTypes } from './theme-types'
 
 export const getThemeColors = (mode: themeTypes) => ({
 	...(mode === 'blue' && {

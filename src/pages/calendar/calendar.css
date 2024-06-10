@@ -2,18 +2,6 @@
 	width: 100%;
 }
 
-.calendar-header {
-	height: 80px;
-}
-.calendar-header__title {
-	color: #fff;
-	font-size: 21px;
-}
-.calendar-header__button {
-	position: absolute;
-	right: 30px;
-}
-
 .calendar-body {
 	box-sizing: border-box;
 	padding: 20px;
@@ -35,17 +23,7 @@
 	bottom: 30px;
 }
 .calendar-body__table {
-	min-width: 620px;
-}
-.calendar-body__options {
-	width: 100%;
-	box-sizing: border-box;
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-}
-.calendar-body__grid {
-	width: 620px !important;
+	max-width: 620px !important;
 }
 
 .calendar-body__theme {

@@ -2,7 +2,7 @@
 const REG_EMAIL = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
 const REG_LATIN = /[а-яА-Я]/
 
-export const emailValidation = {
+const emailValidation = {
 	required: 'Email is required',
 	validate: (value: string) => {
 		if (value.match(REG_LATIN)) {
@@ -14,7 +14,7 @@ export const emailValidation = {
 	},
 }
 
-export const passwordValidation = {
+const passwordValidation = {
 	required: 'Password is required',
 	validate: (value: string) => {
 		if (value.length < 8) {
@@ -23,11 +23,16 @@ export const passwordValidation = {
 	},
 }
 
-export const userNameValidation = {
+const usernameValidation = {
 	required: 'Username is required',
 	validate: (value: string) => {
 		if (value.length < 5) {
 			return 'Username must be contain at least 4 letters'
 		}
 	},
+}
+export const inputValidations = {
+	email: emailValidation,
+	password: passwordValidation,
+	username: usernameValidation,
 }

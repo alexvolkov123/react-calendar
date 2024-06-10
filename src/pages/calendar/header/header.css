@@ -1,0 +1,11 @@
+.header {
+	height: 80px;
+}
+.header__title {
+	color: #fff;
+	font-size: 21px;
+}
+.header__button {
+	position: absolute;
+	right: 30px;
+}
