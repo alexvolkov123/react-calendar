@@ -3,11 +3,12 @@ import { Button, Grid } from '@mui/material'
 import { format, isToday } from 'date-fns'
 import { useContext } from 'react'
 
-import { CalendarContext } from '../../../../contexts/calendar/calendar-context'
-import { UserContext } from '../../../../contexts/user/user.context'
-import { useTasks } from '../../../../hooks/useTasks'
+import { CalendarContext } from '../../../../../contexts/calendar/calendar-context'
+import { UserContext } from '../../../../../contexts/user/user.context'
+import { useTasks } from '../../../../../hooks/useTasks'
+import './item.css'
 
-export const GridItem = ({ day }: { day: Date }) => {
+export const CalendarGridItem = ({ day }: { day: Date }) => {
 	const { today, setIsEditDialog } = useContext(CalendarContext)
 	const { setEditedDay } = useContext(UserContext)
 	const { isExistEditedTasks } = useTasks()
@@ -18,9 +19,9 @@ export const GridItem = ({ day }: { day: Date }) => {
 				variant='contained'
 				className={
 					day.getMonth() !== today.getMonth()
-						? 'item__button_not-present-month'
+						? 'button_not-present-month'
 						: isToday(day)
-						? 'item__button_today'
+						? 'button_today'
 						: ''
 				}
 				onClick={() => {

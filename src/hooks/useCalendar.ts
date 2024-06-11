@@ -2,11 +2,14 @@ import {
 	eachDayOfInterval,
 	endOfMonth,
 	endOfWeek,
+	setDefaultOptions,
 	startOfMonth,
 	startOfToday,
 	startOfWeek,
 } from 'date-fns'
 import { useState } from 'react'
+
+setDefaultOptions({ weekStartsOn: 1 })
 
 export const useCalendar = () => {
 	const [today, setToday] = useState(startOfToday())

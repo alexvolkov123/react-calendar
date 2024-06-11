@@ -1,71 +1,60 @@
-import { Button, Dialog, Stack, TextField, Typography } from '@mui/material'
+import { Dialog, Stack } from '@mui/material'
 
+import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
-import { ITask } from '../../../types/types'
+import { CalendarContext } from '../../../contexts/calendar/calendar-context'
+import { useDialog } from '../../../hooks/useDialog'
+import { ITask, IUser } from '../../../types/types'
 import { notify } from '../../../utils/notify/notify'
-import { ICreateDialogProps } from './props'
+import { inputValidations } from '../../../validation'
+import { FormButton } from '../../form-button/form-button'
+import { FormInput } from '../../form-input/form-input'
+import { Title } from '../../title/title'
 
-export const CreateDialog = (props: ICreateDialogProps) => {
-	const { onClose, open } = props
+export const CreateDialog = () => {
+	const { isCreateDialog } = useContext(CalendarContext)
+
+	const { getInputNames, closeCreateDialog } = useDialog()
 	const id = uuidv4()
 
 	const {
 		register,
-		reset,
 		handleSubmit,
+		reset,
 		formState: { errors, isValid },
-	} = useForm<ITask>({
-		mode: 'all',
+	} = useForm<ITask & IUser>({
+		mode: 'onTouched',
 		shouldFocusError: false,
 	})
-
-	const handleClose = () => onClose()
 
 	const onSubmit: SubmitHandler<ITask> = (data: ITask) => {
 		reset()
 		notify('You successfully created the task')
-		return onClose({ ...data, id })
+		return closeCreateDialog({ ...data, id })
 	}
 
 	return (
-		<Dialog onClose={handleClose} open={open}>
+		<Dialog onClose={() => closeCreateDialog()} open={isCreateDialog}>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Stack spacing={3} alignItems={'center'}>
-					<Typography fontSize={20} color='primary'>
-						Create Event
-					</Typography>
+					<Title text='Create Task'></Title>
+					{getInputNames().map(inputName => (
+						<FormInput
+							key={inputName}
+							register={register}
+							name={inputName}
+							validation={inputValidations[inputName] || {}}
+							errors={errors}
+							type={inputName}
+						/>
+					))}
 
-					<TextField
-						{...register('title', { required: 'Title is required' })}
-						label='Title'
-						variant='outlined'
-						error={!!errors.title}
-						helperText={errors.title?.message}
-					/>
-					<TextField
-						{...register('date', { required: 'Date is required' })}
-						type='date'
-						variant='outlined'
-						error={!!errors.date}
-						helperText={errors.date?.message}
-					/>
-					<TextField
-						{...register('description')}
-						label='Description'
-						variant='outlined'
-						error={!!errors.description}
-						helperText={errors.description?.message}
-					/>
-
-					<Button
+					<FormButton
+						label='Create'
 						disabled={!isValid}
-						variant='contained'
 						id='submitTask'
-						type='submit'
-					>
-						Access
-					</Button>
+					></FormButton>
 				</Stack>
 			</form>
 		</Dialog>

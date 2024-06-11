@@ -1,8 +1,8 @@
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { inputTypes } from '../components/form-input/form-input-props'
 import { UserContext } from '../contexts/user/user.context'
-import { inputTypes } from '../pages/auth/auth-wrapper-form/auth-form/auth-form-input/auth-form-input-props'
 import { Routes } from '../routes/routes'
 import { IUser } from '../types/types'
 import { notify } from '../utils/notify/notify'

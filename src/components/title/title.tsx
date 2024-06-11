@@ -1,9 +1,9 @@
 import { Typography } from '@mui/material'
 
-export const AuthFormTitle = (props: any) => {
+export const Title = ({ text }: { text: string }) => {
 	return (
 		<Typography fontSize={20} color='primary'>
-			{props.title}
+			{text}
 		</Typography>
 	)
 }

@@ -1,12 +1,13 @@
 import { Stack } from '@mui/material'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
+import { FormButton } from '../../../../components/form-button/form-button'
+import { FormInput } from '../../../../components/form-input/form-input'
+import { Title } from '../../../../components/title/title'
 import { useAuth } from '../../../../hooks/useAuth'
-import { IUser } from '../../../../types/types'
+import { ITask, IUser } from '../../../../types/types'
 import { inputValidations } from '../../../../validation'
-import { AuthFormButton } from './auth-form-button/auth-form-button'
-import { AuthFormInput } from './auth-form-input/auth-form-input'
-import { AuthFormTitle } from './auth-form-title/auth-form-title'
+import './auth-form.css'
 import { AuthFormProps } from './props'
 
 export const AuthForm = ({ title, isSignUp }: AuthFormProps) => {
@@ -17,7 +18,7 @@ export const AuthForm = ({ title, isSignUp }: AuthFormProps) => {
 		handleSubmit,
 		reset,
 		formState: { errors, isValid },
-	} = useForm<IUser>({
+	} = useForm<IUser & ITask>({
 		mode: 'onTouched',
 		shouldFocusError: false,
 	})
@@ -28,21 +29,21 @@ export const AuthForm = ({ title, isSignUp }: AuthFormProps) => {
 	}
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)} className='wrapper-form'>
+		<form onSubmit={handleSubmit(onSubmit)} className='form'>
 			<Stack spacing={3} alignItems={'center'}>
-				<AuthFormTitle title={title} />
+				<Title text={title} />
 				{getInputs(isSignUp).map(inputName => (
-					<AuthFormInput
+					<FormInput
 						key={inputName}
 						register={register}
 						name={inputName}
-						validation={inputValidations[inputName]}
+						validation={inputValidations[inputName] || {}}
 						errors={errors}
 						type={inputName}
 					/>
 				))}
 
-				<AuthFormButton isDisabled={!isValid} />
+				<FormButton label='Access' disabled={!isValid} id='auth' />
 			</Stack>
 		</form>
 	)

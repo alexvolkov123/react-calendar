@@ -6,14 +6,10 @@
 	justify-content: center;
 }
 
-.dialog-title {
-	font-size: 25px;
-	margin-bottom: 15px;
-}
-
 .dialog-tasks {
 	width: 100%;
-	margin: 0;
+	height: 330px;
+	margin: 5px 0 0 0;
 	padding: 0;
 }
 

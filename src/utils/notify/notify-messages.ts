@@ -5,4 +5,5 @@ export enum notifyMessages {
 	userAlreadyExists = 'An account with the same email address already exists',
 	youAreRegistered = 'You are registered',
 	loggedOut = 'You are logged out',
+	deletedTask = 'You successfully deleted this task',
 }

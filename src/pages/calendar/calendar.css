@@ -1,7 +1,3 @@
-.calendar {
-	width: 100%;
-}
-
 .calendar-body {
 	box-sizing: border-box;
 	padding: 20px;
@@ -10,29 +6,6 @@
 	justify-content: center;
 }
 
-.calendar-body__wrapper {
-	display: flex;
-	width: 61%;
-	overflow: hidden;
-	height: 100%;
-}
-
-.calendar-body__create-task {
-	position: absolute !important;
-	right: 30px;
-	bottom: 30px;
-}
-.calendar-body__table {
-	max-width: 620px !important;
-}
-
 .calendar-body__theme {
-	padding-top: 105px;
-}
-
-.calendar-body__grid-button_not-present-month {
-	color: #636363 !important;
-}
-.calendar-body__grid-button_today {
-	border: 2px solid rgb(204, 3, 3) !important;
+	margin-top: 105px;
 }

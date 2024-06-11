@@ -31,8 +31,22 @@ const usernameValidation = {
 		}
 	},
 }
+
+const titleValidation = {
+	required: 'Title is required',
+}
+
+const dateValidation = {
+	required: 'Date is required',
+}
+
+const descriptionValidation = {}
+
 export const inputValidations = {
 	email: emailValidation,
 	password: passwordValidation,
 	username: usernameValidation,
+	title: titleValidation,
+	date: dateValidation,
+	description: descriptionValidation,
 }
