@@ -1,9 +1,10 @@
 import { Typography } from '@mui/material'
+import { PropsWithChildren, memo } from 'react'
 
-export const Title = ({ text }: { text: string }) => {
+export const Title = memo(({ children }: PropsWithChildren) => {
 	return (
 		<Typography fontSize={20} color='primary'>
-			{text}
+			{children}
 		</Typography>
 	)
-}
+})

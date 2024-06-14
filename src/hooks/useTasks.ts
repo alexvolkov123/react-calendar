@@ -1,5 +1,5 @@
 import { format } from 'date-fns'
-import { useContext } from 'react'
+import { useCallback, useContext, useMemo } from 'react'
 
 import { UserContext } from '../contexts/user/user.context'
 import { ITask } from '../types/types'
@@ -10,30 +10,38 @@ export const useTasks = () => {
 	const { user, editedDay, setUser } = useContext(UserContext)
 	const { setToStorage, getUserFromStorage } = useLocalStorage()
 
-	const getUserTasks = () => {
+	const getUserTasks = useMemo((): ITask[] => {
 		return user ? user!.tasks : []
-	}
-	const setUserTasks = (tasks: ITask[]) => {
-		setToStorage(localStorageTypes.user, { ...getUserFromStorage(), tasks })
-		setUser({ ...user!, tasks })
-	}
+	}, [user])
 
-	const getFilteredUserTasks = () => {
-		return getUserTasks()
-			? getUserTasks().filter(
+	const setUserTasks = useCallback(
+		(tasks: ITask[]): void => {
+			setToStorage(localStorageTypes.user, { ...getUserFromStorage(), tasks })
+			setUser({ ...user!, tasks })
+		},
+		[getUserFromStorage, setToStorage, setUser, user]
+	)
+
+	const getFilteredUserTasks = useMemo((): ITask[] => {
+		return getUserTasks
+			? getUserTasks.filter(
 					task =>
 						format(task.date, 'yyyy-MM-dd') === format(editedDay, 'yyyy-MM-dd')
 			  )
 			: []
-	}
+	}, [editedDay, getUserTasks])
 
-	const isExistEditedTasks = (day: Date) => {
-		return getUserTasks()
-			? getUserTasks().filter(
-					task => format(task.date, 'yyyy MM dd') === format(day, 'yyyy MM dd')
-			  ).length > 0
-			: false
-	}
+	const isExistEditedTasks = useCallback(
+		(day: Date): boolean => {
+			return getUserTasks
+				? getUserTasks.filter(
+						task =>
+							format(task.date, 'yyyy MM dd') === format(day, 'yyyy MM dd')
+				  ).length > 0
+				: false
+		},
+		[getUserTasks]
+	)
 
 	return {
 		getUserTasks,

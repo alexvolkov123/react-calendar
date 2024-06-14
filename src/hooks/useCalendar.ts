@@ -7,7 +7,7 @@ import {
 	startOfToday,
 	startOfWeek,
 } from 'date-fns'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 setDefaultOptions({ weekStartsOn: 1 })
 
@@ -17,12 +17,12 @@ export const useCalendar = () => {
 	const [isCreateDialog, setIsCreateDialog] = useState(false)
 	const [isEditDialog, setIsEditDialog] = useState(false)
 
-	const getDays = () => {
+	const getDays = useCallback((): Date[] => {
 		return eachDayOfInterval({
 			start: startOfWeek(startOfMonth(today)),
 			end: endOfWeek(endOfMonth(today)),
 		})
-	}
+	}, [today])
 
 	return {
 		today,

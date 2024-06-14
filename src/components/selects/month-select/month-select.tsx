@@ -1,22 +1,25 @@
 import { MenuItem, Select } from '@mui/material'
 import { eachMonthOfInterval, endOfYear, format, startOfYear } from 'date-fns'
-import { useContext } from 'react'
+import { memo, useCallback, useContext } from 'react'
 
 import { CalendarContext } from '../../../contexts/calendar/calendar-context'
 
-export const MonthSelect = () => {
+export const MonthSelect = memo(() => {
 	const { today, setToday } = useContext(CalendarContext)
 
-	const getMonths = () => {
+	const getMonths = useCallback(() => {
 		return eachMonthOfInterval({
 			start: startOfYear(today),
 			end: endOfYear(today),
 		})
-	}
+	}, [today])
 
-	const handleChangeMonth = (startOfMonth: Date) => {
-		setToday(startOfMonth)
-	}
+	const handleChangeMonth = useCallback(
+		(startOfMonth: Date): void => {
+			setToday(startOfMonth)
+		},
+		[setToday]
+	)
 
 	return (
 		<Select
@@ -30,4 +33,4 @@ export const MonthSelect = () => {
 			))}
 		</Select>
 	)
-}
+})

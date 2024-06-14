@@ -1,10 +1,11 @@
 import { Grid } from '@mui/material'
-import { useContext } from 'react'
+import { memo, useContext } from 'react'
 
+import { EditDialog } from '../../../../components/popups/edit/edit-dialog'
 import { CalendarContext } from '../../../../contexts/calendar/calendar-context'
 import { CalendarGridItem } from './item/item'
 
-export const CalendarGrid = () => {
+export const CalendarGrid = memo(() => {
 	const { getDays } = useContext(CalendarContext)
 
 	return (
@@ -19,6 +20,7 @@ export const CalendarGrid = () => {
 			{getDays().map(day => (
 				<CalendarGridItem key={day.toISOString()} day={day} />
 			))}
+			<EditDialog />
 		</Grid>
 	)
-}
+})

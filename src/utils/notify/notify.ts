@@ -11,6 +11,9 @@ const notifyConfig = {
 	transition: Zoom,
 }
 
-export const notify = (text: string, type: 'success' | 'error' = 'success') => {
+export const notify = (
+	text: string,
+	type: 'success' | 'error' = 'success'
+): void => {
 	toast[type](text, notifyConfig)
 }

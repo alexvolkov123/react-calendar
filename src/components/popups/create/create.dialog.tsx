@@ -1,22 +1,25 @@
-import { Dialog, Stack } from '@mui/material'
-
-import { useContext } from 'react'
+import { Dialog } from '@mui/material'
+import { memo, useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
+
 import { CalendarContext } from '../../../contexts/calendar/calendar-context'
 import { useDialog } from '../../../hooks/useDialog'
 import { ITask, IUser } from '../../../types/types'
 import { notify } from '../../../utils/notify/notify'
+import { notifyMessages } from '../../../utils/notify/notify-messages'
 import { inputValidations } from '../../../validation'
 import { FormButton } from '../../form-button/form-button'
 import { FormInput } from '../../form-input/form-input'
+import { FormStack } from '../../form-stack/form-stack'
 import { Title } from '../../title/title'
 
-export const CreateDialog = () => {
+export const CreateDialog = memo(() => {
 	const { isCreateDialog } = useContext(CalendarContext)
 
 	const { getInputNames, closeCreateDialog } = useDialog()
-	const id = uuidv4()
+
+	const id: string = uuidv4()
 
 	const {
 		register,
@@ -28,17 +31,17 @@ export const CreateDialog = () => {
 		shouldFocusError: false,
 	})
 
-	const onSubmit: SubmitHandler<ITask> = (data: ITask) => {
+	const onSubmit: SubmitHandler<ITask> = (data: ITask): void => {
 		reset()
-		notify('You successfully created the task')
-		return closeCreateDialog({ ...data, id })
+		notify(notifyMessages.createdTask)
+		closeCreateDialog({ ...data, id })
 	}
 
 	return (
 		<Dialog onClose={() => closeCreateDialog()} open={isCreateDialog}>
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<Stack spacing={3} alignItems={'center'}>
-					<Title text='Create Task'></Title>
+				<FormStack>
+					<Title>Create Task</Title>
 					{getInputNames().map(inputName => (
 						<FormInput
 							key={inputName}
@@ -55,8 +58,8 @@ export const CreateDialog = () => {
 						disabled={!isValid}
 						id='submitTask'
 					></FormButton>
-				</Stack>
+				</FormStack>
 			</form>
 		</Dialog>
 	)
-}
+})

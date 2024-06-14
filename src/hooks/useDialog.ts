@@ -1,4 +1,5 @@
-import { useContext } from 'react'
+import { useCallback, useContext } from 'react'
+
 import { inputTypes } from '../components/form-input/form-input-props'
 import { CalendarContext } from '../contexts/calendar/calendar-context'
 import { ITask } from '../types/types'
@@ -10,28 +11,34 @@ export const useDialog = () => {
 	const { setIsCreateDialog, setIsEditDialog } = useContext(CalendarContext)
 	const { setUserTasks, getUserTasks, getFilteredUserTasks } = useTasks()
 
-	const getInputNames = (): inputTypes[] => {
+	const getInputNames = useCallback((): inputTypes[] => {
 		return ['title', 'date', 'description']
-	}
+	}, [])
 
-	const closeCreateDialog = (task?: ITask) => {
-		setIsCreateDialog(false)
-		task && setUserTasks([...getUserTasks(), task])
-	}
+	const closeCreateDialog = useCallback(
+		(task?: ITask): void => {
+			setIsCreateDialog(false)
+			task && setUserTasks([...getUserTasks, task])
+		},
+		[getUserTasks, setIsCreateDialog, setUserTasks]
+	)
 
-	const closeEditDialog = () => {
+	const closeEditDialog = useCallback((): void => {
 		setIsEditDialog(false)
-	}
+	}, [setIsEditDialog])
 
-	const deleteTask = (id: string) => {
-		const newTasks = getUserTasks().filter(task => task.id !== id)
-		const tasksLength = getFilteredUserTasks().filter(task => task.id !== id)
+	const deleteTask = useCallback(
+		(id: string): void => {
+			const newTasks = getUserTasks.filter(task => task.id !== id)
+			const tasksLength = getFilteredUserTasks.filter(task => task.id !== id)
 
-		setUserTasks(newTasks)
-		notify(notifyMessages.deletedTask)
+			setUserTasks(newTasks)
+			notify(notifyMessages.deletedTask)
 
-		tasksLength.length === 0 && closeEditDialog()
-	}
+			tasksLength.length === 0 && closeEditDialog()
+		},
+		[closeEditDialog, getFilteredUserTasks, getUserTasks, setUserTasks]
+	)
 
 	return {
 		getInputNames,

@@ -1,10 +1,10 @@
 import { Button } from '@mui/material'
-import { useContext } from 'react'
+import { memo, useContext } from 'react'
 
 import { CalendarContext } from '../../../contexts/calendar/calendar-context'
 import './button-create-task.css'
 
-export const CalendarButtonCreateTask = () => {
+export const CalendarButtonCreateTask = memo(() => {
 	const { setIsCreateDialog } = useContext(CalendarContext)
 
 	return (
@@ -16,4 +16,4 @@ export const CalendarButtonCreateTask = () => {
 			+
 		</Button>
 	)
-}
+})

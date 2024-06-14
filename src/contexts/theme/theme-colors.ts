@@ -1,6 +1,6 @@
 import { themeTypes } from './theme-types'
 
-export const getThemeColors = (mode: themeTypes) => ({
+export const getThemeColors: any = (mode: themeTypes) => ({
 	...(mode === 'blue' && {
 		theme: {
 			DEFAULT: '#19adbd',

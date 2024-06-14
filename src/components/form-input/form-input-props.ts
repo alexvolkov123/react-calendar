@@ -9,9 +9,6 @@ export type inputTypes =
 	| 'description'
 	| 'date'
 
-// type authInputTypes = 'email' | 'password' | 'username'
-// type dialogInputTypes = 'title' | 'description' | 'date'
-
 export type FormInputProps = {
 	register: UseFormRegister<IUser & ITask>
 	name: inputTypes

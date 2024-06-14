@@ -1,19 +1,22 @@
 import { ArrowLeft, ArrowRight } from '@mui/icons-material'
 import { IconButton, Typography } from '@mui/material'
 import { add, sub } from 'date-fns'
-import { useContext } from 'react'
+import { memo, useCallback, useContext } from 'react'
 
 import { CalendarContext } from '../../../contexts/calendar/calendar-context'
 import './year-select.css'
 
-export const YearSelect = () => {
+export const YearSelect = memo(() => {
 	const { today, setToday } = useContext(CalendarContext)
 
-	const handleChangeYear = (addYear: boolean) => {
-		addYear
-			? setToday(add(today, { years: 1 }))
-			: setToday(sub(today, { years: 1 }))
-	}
+	const handleChangeYear = useCallback(
+		(addYear: boolean): void => {
+			addYear
+				? setToday(add(today, { years: 1 }))
+				: setToday(sub(today, { years: 1 }))
+		},
+		[setToday, today]
+	)
 
 	return (
 		<div className='year-select'>
@@ -28,4 +31,4 @@ export const YearSelect = () => {
 			</IconButton>
 		</div>
 	)
-}
+})

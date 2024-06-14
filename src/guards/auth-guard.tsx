@@ -5,7 +5,7 @@ import { useLocalStorage } from '../hooks/local-storage/useLocalStorage'
 import { AuthGuardProps } from './props'
 
 export const AuthGuard = ({
-	children = <></>,
+	children,
 	redirect,
 	isInverse = false,
 }: AuthGuardProps) => {

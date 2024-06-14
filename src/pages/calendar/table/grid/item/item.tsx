@@ -1,16 +1,17 @@
 import { Circle } from '@mui/icons-material'
 import { Button, Grid } from '@mui/material'
 import { format, isToday } from 'date-fns'
-import { useContext } from 'react'
+import { memo, useContext } from 'react'
 
 import { CalendarContext } from '../../../../../contexts/calendar/calendar-context'
 import { UserContext } from '../../../../../contexts/user/user.context'
 import { useTasks } from '../../../../../hooks/useTasks'
 import './item.css'
 
-export const CalendarGridItem = ({ day }: { day: Date }) => {
+export const CalendarGridItem = memo(({ day }: { day: Date }) => {
 	const { today, setIsEditDialog } = useContext(CalendarContext)
 	const { setEditedDay } = useContext(UserContext)
+
 	const { isExistEditedTasks } = useTasks()
 
 	return (
@@ -35,4 +36,4 @@ export const CalendarGridItem = ({ day }: { day: Date }) => {
 			</Button>
 		</Grid>
 	)
-}
+})
