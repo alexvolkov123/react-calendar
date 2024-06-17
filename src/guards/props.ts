@@ -1,9 +1,9 @@
 import { ReactElement } from 'react'
 
-import { Routes } from '../routes/routes'
+import { RoutePaths } from '../routes/types'
 
 export type AuthGuardProps = {
 	children: ReactElement
-	redirect: Routes
+	redirect: RoutePaths
 	isInverse?: boolean
 }

@@ -1,6 +1,6 @@
 import { memo } from 'react'
 
-import { Routes } from '../../../routes/routes'
+import { RoutePaths } from '../../../routes/types'
 import { AuthFormFooter } from './auth-form-footer/auth-form-footer'
 import { AuthForm } from './auth-form/auth-form'
 import './auth-wrapper-form.css'
@@ -14,7 +14,7 @@ export const AuthWrapperForm = memo(
 					<AuthForm {...{ title, isSignUp }} />
 					<AuthFormFooter
 						text={linkText}
-						href={isSignUp ? Routes.signIn : Routes.signUp}
+						href={isSignUp ? RoutePaths.signIn : RoutePaths.signUp}
 						linkValue={title}
 					/>
 				</div>

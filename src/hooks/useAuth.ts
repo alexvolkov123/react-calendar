@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { inputTypes } from '../components/form-input/form-input-props'
 import { UserContext } from '../contexts/user/user.context'
-import { Routes } from '../routes/routes'
+import { RoutePaths } from '../routes/types'
 import { IUser } from '../types/types'
 import { notify } from '../utils/notify/notify'
 import { notifyMessages } from '../utils/notify/notify-messages'
@@ -21,7 +21,7 @@ export const useAuth = () => {
 				notify(notifyMessages.passwordIsIncorrect, 'error')
 			} else {
 				addUser(user.email)
-				navigate(Routes.calendar)
+				navigate(RoutePaths.calendar)
 				notify(notifyMessages.loggedIn)
 			}
 		},
@@ -35,7 +35,7 @@ export const useAuth = () => {
 			} else {
 				registerUser({ ...user, tasks: [] })
 				notify(notifyMessages.youAreRegistered)
-				navigate(Routes.calendar)
+				navigate(RoutePaths.calendar)
 			}
 		},
 		[isUserExist, navigate, registerUser]

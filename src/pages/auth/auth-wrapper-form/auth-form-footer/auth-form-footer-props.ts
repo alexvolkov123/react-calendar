@@ -1,7 +1,7 @@
-import { Routes } from '../../../../routes/routes'
+import { RoutePaths } from '../../../../routes/types'
 
 export type AuthFormFooterProps = {
 	text: string
 	linkValue: string
-	href: Routes
+	href: RoutePaths
 }
