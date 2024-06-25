@@ -1,5 +1,5 @@
 import { format } from 'date-fns'
-import { useCallback, useContext } from 'react'
+import { useCallback, useContext, useMemo } from 'react'
 
 import { CalendarContext } from '../contexts/calendar/calendar-context'
 import { UserContext } from '../contexts/user/user.context'
@@ -12,7 +12,7 @@ export const useTasks = () => {
 	const { editedDay } = useContext(CalendarContext)
 	const { setToStorage, getUserFromStorage } = useLocalStorage()
 
-	const getUserTasks = useCallback((): Task[] => {
+	const userTasks = useMemo((): Task[] => {
 		return user ? user.tasks : []
 	}, [user])
 
@@ -27,31 +27,31 @@ export const useTasks = () => {
 		[getUserFromStorage, setToStorage, setUser, user]
 	)
 
-	const getFilteredUserTasks = useCallback((): Task[] => {
-		return getUserTasks()
-			? getUserTasks().filter(
+	const filteredUserTasks = useMemo((): Task[] => {
+		return userTasks
+			? userTasks.filter(
 					task =>
 						format(task.date, 'yyyy-MM-dd') === format(editedDay, 'yyyy-MM-dd')
 			  )
 			: []
-	}, [editedDay, getUserTasks])
+	}, [editedDay, userTasks])
 
 	const isExistEditedTasks = useCallback(
 		(day: Date): boolean => {
-			return getUserTasks()
-				? getUserTasks().filter(
+			return userTasks
+				? userTasks.filter(
 						task =>
 							format(task.date, 'yyyy MM dd') === format(day, 'yyyy MM dd')
 				  ).length > 0
 				: false
 		},
-		[getUserTasks]
+		[userTasks]
 	)
 
 	return {
-		getUserTasks,
+		userTasks,
 		setUserTasks,
-		getFilteredUserTasks,
+		filteredUserTasks,
 		isExistEditedTasks,
 	}
 }

@@ -17,7 +17,7 @@ import { Title } from '../../ui/title/title'
 
 export const CreateDialog = memo(() => {
 	const { isCreateDialog, setIsCreateDialog } = useContext(CalendarContext)
-	const { getUserTasks, setUserTasks } = useTasks()
+	const { userTasks, setUserTasks } = useTasks()
 
 	const {
 		register,
@@ -32,25 +32,22 @@ export const CreateDialog = memo(() => {
 
 	const id: string = uuidv4()
 
-	const closeCreateDialog = useCallback(
-		(task?: Task) => {
-			reset()
-			setIsCreateDialog(false)
-			task && setUserTasks([...getUserTasks(), task])
-		},
-		[getUserTasks, reset, setIsCreateDialog, setUserTasks]
-	)
+	const closeCreateDialog = useCallback(() => {
+		reset()
+		setIsCreateDialog(false)
+	}, [reset, setIsCreateDialog])
 
 	const onSubmit: SubmitHandler<Task> = useCallback(
 		(data: Task) => {
 			notify('You successfully created the task')
-			closeCreateDialog({ ...data, id })
+			data && setUserTasks([...userTasks, data])
+			closeCreateDialog()
 		},
-		[closeCreateDialog, id]
+		[closeCreateDialog, userTasks, setUserTasks]
 	)
 
 	return (
-		<Dialog onClose={() => closeCreateDialog()} open={isCreateDialog}>
+		<Dialog onClose={closeCreateDialog} open={isCreateDialog}>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<FormStack>
 					<Title>Create Task</Title>

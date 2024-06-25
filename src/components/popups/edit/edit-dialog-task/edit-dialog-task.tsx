@@ -7,27 +7,27 @@ import { notify } from '../../../../utils/notify/notify'
 import { EditDialogTaskProps } from './props'
 
 export const EditDialogTask = memo(({ task, onClose }: EditDialogTaskProps) => {
-	const { getUserTasks, setUserTasks, getFilteredUserTasks } = useTasks()
+	const { userTasks, setUserTasks, filteredUserTasks } = useTasks()
 
 	const updateTasks = useCallback(
 		(id: string) => {
-			const newTasks = getUserTasks().filter(task => task.id !== id)
+			const newTasks = userTasks.filter(task => task.id !== id)
 
 			setUserTasks(newTasks)
 
 			notify('You successfully deleted the task')
 		},
-		[setUserTasks, getUserTasks]
+		[setUserTasks, userTasks]
 	)
 
 	const deleteTask = useCallback(
 		(id: string) => {
-			const tasksLength = getFilteredUserTasks().filter(task => task.id !== id)
+			const tasksLength = filteredUserTasks.filter(task => task.id !== id)
 			tasksLength.length === 0 && onClose()
 
 			updateTasks(id)
 		},
-		[getFilteredUserTasks, onClose, updateTasks]
+		[filteredUserTasks, onClose, updateTasks]
 	)
 
 	return (

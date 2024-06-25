@@ -1,8 +1,7 @@
-import { ThemeSelect } from '../ui/selects/theme-select/theme-select'
-import { CalendarButtonCreateTask } from './button/button-create-task'
 import './calendar-component.css'
 import { CalendarHeader } from './header/header'
 import { CalendarTable } from './table/table'
+import { ThemeSelect } from './theme-select/theme-select'
 
 export const CalendarComponent = () => {
 	return (
@@ -14,7 +13,6 @@ export const CalendarComponent = () => {
 					<ThemeSelect />
 				</div>
 			</div>
-			<CalendarButtonCreateTask />
 		</>
 	)
 }

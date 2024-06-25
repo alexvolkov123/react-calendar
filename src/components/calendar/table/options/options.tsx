@@ -1,8 +1,8 @@
 import { memo } from 'react'
 
-import { MonthSelect } from '../../../ui/selects/month-select/month-select'
-import { YearSelect } from '../../../ui/selects/year-select/year-select'
+import { MonthSelect } from './month-select/month-select'
 import './options.css'
+import { YearSelect } from './year-select/year-select'
 
 export const CalendarOptions = memo(() => {
 	return (

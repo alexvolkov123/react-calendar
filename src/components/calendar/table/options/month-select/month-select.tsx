@@ -2,8 +2,8 @@ import { SelectChangeEvent } from '@mui/material'
 import { eachMonthOfInterval, endOfYear, format, startOfYear } from 'date-fns'
 import { memo, useCallback, useContext, useMemo } from 'react'
 
-import { CalendarContext } from '../../../../contexts/calendar/calendar-context'
-import { BaseSelect } from '../base-select/base-select'
+import { CalendarContext } from '../../../../../contexts/calendar/calendar-context'
+import { BaseSelect } from '../../../../ui/base-select/base-select'
 
 export const MonthSelect = memo(() => {
 	const { today, setToday } = useContext(CalendarContext)
@@ -21,15 +21,17 @@ export const MonthSelect = memo(() => {
 		},
 		[setToday]
 	)
-	const onConvert = (date: string) => {
-		return format(date, 'MMMM')
-	}
+
+	const convertedMonths = useMemo(() => {
+		return months.map(month => {
+			return { value: month.toISOString(), label: format(month, 'MMMM') }
+		})
+	}, [months])
 
 	return (
 		<BaseSelect
-			items={months.map(month => month.toISOString())}
+			items={convertedMonths}
 			selectedItem={months[today.getMonth()].toISOString()}
-			onConvert={onConvert}
 			onChange={handleChangeMonth}
 		/>
 	)

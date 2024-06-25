@@ -11,11 +11,11 @@ import './edit-dialog.css'
 export const EditDialog = memo(() => {
 	const { isEditDialog, setIsEditDialog } = useContext(CalendarContext)
 
-	const { getFilteredUserTasks } = useTasks()
+	const { filteredUserTasks } = useTasks()
 
 	const getTitle = (): string => {
-		return getFilteredUserTasks().length > 0
-			? format(getFilteredUserTasks()[0].date, 'dd.MM.yyyy')
+		return filteredUserTasks.length > 0
+			? format(filteredUserTasks[0].date, 'dd.MM.yyyy')
 			: 'Нет событий'
 	}
 
@@ -27,11 +27,8 @@ export const EditDialog = memo(() => {
 		<Dialog onClose={closeEditDialog} open={isEditDialog}>
 			<div className='dialog'>
 				<Title>{getTitle()}</Title>
-				<ul
-					className='dialog-tasks'
-					hidden={getFilteredUserTasks().length === 0}
-				>
-					{getFilteredUserTasks().map(task => {
+				<ul className='dialog-tasks' hidden={filteredUserTasks.length === 0}>
+					{filteredUserTasks.map(task => {
 						return (
 							<EditDialogTask
 								key={task.id}
