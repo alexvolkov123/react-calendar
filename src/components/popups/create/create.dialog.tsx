@@ -59,7 +59,7 @@ export const CreateDialog = memo(() => {
 							key={inputName}
 							register={register}
 							name={inputName}
-							validation={createTaskInputValidations[inputName] || {}}
+							validation={createTaskInputValidations[inputName]}
 							errors={errors}
 							type={inputName}
 						/>
