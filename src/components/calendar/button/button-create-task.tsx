@@ -1,19 +1,16 @@
-import { Button } from '@mui/material'
 import { memo, useContext } from 'react'
 
 import { CalendarContext } from '../../../contexts/calendar/calendar-context'
-import './button-create-task.css'
+import { BaseButton } from '../../ui/base-button/base-button'
 
 export const CalendarButtonCreateTask = memo(() => {
 	const { setIsCreateDialog } = useContext(CalendarContext)
 
 	return (
-		<Button
+		<BaseButton
+			buttonText='+'
 			id='createTask'
-			className='button'
 			onClick={() => setIsCreateDialog(true)}
-		>
-			+
-		</Button>
+		/>
 	)
 })

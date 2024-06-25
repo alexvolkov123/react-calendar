@@ -43,6 +43,8 @@ export const themeSettings = (mode: ThemeTypes): ThemeOptions => {
 						props: { id: 'createTask' },
 						style: {
 							position: 'absolute',
+							right: 30,
+							bottom: 30,
 							width: 120,
 							backgroundColor: colors.theme.DEFAULT,
 							height: 120,
@@ -73,7 +75,7 @@ export const themeSettings = (mode: ThemeTypes): ThemeOptions => {
 						},
 					},
 					{
-						props: { variant: 'contained', type: 'button' },
+						props: { id: 'calendar-button' },
 						style: {
 							backgroundColor: `${colors.theme.DEFAULT}`,
 							color: '#fff',
@@ -85,6 +87,44 @@ export const themeSettings = (mode: ThemeTypes): ThemeOptions => {
 							fontWeight: 400,
 							borderRadius: 5,
 							border: `2px solid ${colors.theme[100]}`,
+							':hover': {
+								borderWidth: 2,
+								backgroundColor: `${colors.theme[200]}`,
+							},
+						},
+					},
+					{
+						props: { id: 'calendar-button_not-present-month' },
+						style: {
+							backgroundColor: `${colors.theme.DEFAULT}`,
+							color: '#4d4d4d',
+							boxShadow: 'none',
+							fontSize: 20,
+							height: 70,
+							width: 70,
+							boxSizing: 'border-box',
+							fontWeight: 400,
+							borderRadius: 5,
+							border: `2px solid ${colors.theme[100]}`,
+							':hover': {
+								borderWidth: 2,
+								backgroundColor: `${colors.theme[200]}`,
+							},
+						},
+					},
+					{
+						props: { id: 'calendar-button_today' },
+						style: {
+							backgroundColor: `${colors.theme.DEFAULT}`,
+							color: '#fff',
+							boxShadow: 'none',
+							fontSize: 20,
+							height: 70,
+							width: 70,
+							boxSizing: 'border-box',
+							fontWeight: 400,
+							borderRadius: 5,
+							border: `2px solid #cc0303`,
 							':hover': {
 								borderWidth: 2,
 								backgroundColor: `${colors.theme[200]}`,

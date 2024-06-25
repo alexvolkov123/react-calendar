@@ -1,10 +1,11 @@
 import { Circle } from '@mui/icons-material'
-import { Button, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import { format, isToday } from 'date-fns'
 import { memo, useContext, useMemo } from 'react'
 
 import { CalendarContext } from '../../../../../contexts/calendar/calendar-context'
 import { useTasks } from '../../../../../hooks/useTasks'
+import { BaseButton } from '../../../../ui/base-button/base-button'
 import './item.css'
 
 export const CalendarGridItem = memo(({ day }: { day: Date }) => {
@@ -12,13 +13,13 @@ export const CalendarGridItem = memo(({ day }: { day: Date }) => {
 
 	const { isExistEditedTasks } = useTasks()
 
-	const buttonClass = useMemo(
+	const buttonId = useMemo(
 		() =>
 			day.getMonth() !== today.getMonth()
-				? 'button_not-present-month'
+				? 'calendar-button_not-present-month'
 				: isToday(day)
-				? 'button_today'
-				: '',
+				? 'calendar-button_today'
+				: 'calendar-button',
 		[day, today]
 	)
 
@@ -29,15 +30,13 @@ export const CalendarGridItem = memo(({ day }: { day: Date }) => {
 
 	return (
 		<Grid item>
-			<Button
-				variant='contained'
-				className={buttonClass}
+			<BaseButton
+				buttonText={format(day, 'd')}
 				onClick={handleButtonClick}
-				type='button'
+				id={buttonId}
 			>
-				{format(day, 'd')}
-				{isExistEditedTasks(day) && <Circle id='circle' />}
-			</Button>
+				{isExistEditedTasks(day) ? <Circle id='circle' /> : <></>}
+			</BaseButton>
 		</Grid>
 	)
 })

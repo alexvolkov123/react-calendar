@@ -1,10 +1,11 @@
-import { Button, Container } from '@mui/material'
+import { Container } from '@mui/material'
 import { memo, useCallback, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { UserContext } from '../../../contexts/user/user.context'
 import { RoutePathsEnum } from '../../../routes/types'
 import { notify } from '../../../utils/notify/notify'
+import { BaseButton } from '../../ui/base-button/base-button'
 import './header.css'
 
 export const CalendarHeader = memo(() => {
@@ -21,9 +22,7 @@ export const CalendarHeader = memo(() => {
 		<Container className='header' id='header'>
 			<div className='header__title'>Calendar Application</div>
 			<div className='header__button'>
-				<Button variant='outlined' onClick={logout}>
-					Logout
-				</Button>
+				<BaseButton buttonText='Logout' variant='outlined' onClick={logout} />
 			</div>
 		</Container>
 	)
