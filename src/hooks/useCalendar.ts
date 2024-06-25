@@ -15,8 +15,8 @@ export const useCalendar = () => {
 	const [today, setToday] = useState<Date>(new Date())
 	useEffect(() => setToday(startOfToday()), [])
 
-	const [isCreateDialog, setIsCreateDialog] = useState<boolean>(false)
-	const [isEditDialog, setIsEditDialog] = useState<boolean>(false)
+	const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false)
+	const [openEditDialog, setOpenEditDialog] = useState<boolean>(false)
 
 	const [editedDay, setEditedDay] = useState(new Date())
 
@@ -28,8 +28,8 @@ export const useCalendar = () => {
 	}, [today])
 
 	return {
-		isCreateDialog,
-		isEditDialog,
+		openCreateDialog,
+		openEditDialog,
 		today,
 		editedDay,
 
@@ -37,7 +37,7 @@ export const useCalendar = () => {
 
 		setToday,
 		setEditedDay,
-		setIsEditDialog,
-		setIsCreateDialog,
+		setOpenEditDialog,
+		setOpenCreateDialog,
 	}
 }

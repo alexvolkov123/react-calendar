@@ -9,7 +9,7 @@ import { EditDialogTask } from './edit-dialog-task/edit-dialog-task'
 import './edit-dialog.css'
 
 export const EditDialog = memo(() => {
-	const { isEditDialog, setIsEditDialog } = useContext(CalendarContext)
+	const { openEditDialog, setOpenEditDialog } = useContext(CalendarContext)
 
 	const { filteredUserTasks } = useTasks()
 
@@ -20,11 +20,11 @@ export const EditDialog = memo(() => {
 	}
 
 	const closeEditDialog = useCallback(() => {
-		setIsEditDialog(false)
-	}, [setIsEditDialog])
+		setOpenEditDialog(false)
+	}, [setOpenEditDialog])
 
 	return (
-		<Dialog onClose={closeEditDialog} open={isEditDialog}>
+		<Dialog onClose={closeEditDialog} open={openEditDialog}>
 			<div className='dialog'>
 				<Title>{getTitle()}</Title>
 				<ul className='dialog-tasks' hidden={filteredUserTasks.length === 0}>

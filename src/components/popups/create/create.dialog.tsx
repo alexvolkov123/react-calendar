@@ -16,7 +16,7 @@ import { FormStack } from '../../ui/form-stack/form-stack'
 import { Title } from '../../ui/title/title'
 
 export const CreateDialog = memo(() => {
-	const { isCreateDialog, setIsCreateDialog } = useContext(CalendarContext)
+	const { openCreateDialog, setOpenCreateDialog } = useContext(CalendarContext)
 	const { userTasks, setUserTasks } = useTasks()
 
 	const {
@@ -34,8 +34,8 @@ export const CreateDialog = memo(() => {
 
 	const closeCreateDialog = useCallback(() => {
 		reset()
-		setIsCreateDialog(false)
-	}, [reset, setIsCreateDialog])
+		setOpenCreateDialog(false)
+	}, [reset, setOpenCreateDialog])
 
 	const onSubmit: SubmitHandler<Task> = useCallback(
 		(data: Task) => {
@@ -47,7 +47,7 @@ export const CreateDialog = memo(() => {
 	)
 
 	return (
-		<Dialog onClose={closeCreateDialog} open={isCreateDialog}>
+		<Dialog onClose={closeCreateDialog} open={openCreateDialog}>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<FormStack>
 					<Title>Create Task</Title>

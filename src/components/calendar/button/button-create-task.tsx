@@ -4,13 +4,13 @@ import { CalendarContext } from '../../../contexts/calendar/calendar-context'
 import { BaseButton } from '../../ui/base-button/base-button'
 
 export const CalendarButtonCreateTask = memo(() => {
-	const { setIsCreateDialog } = useContext(CalendarContext)
+	const { setOpenCreateDialog } = useContext(CalendarContext)
 
 	return (
 		<BaseButton
 			buttonText='+'
 			id='createTask'
-			onClick={() => setIsCreateDialog(true)}
+			onClick={() => setOpenCreateDialog(true)}
 		/>
 	)
 })

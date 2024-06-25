@@ -9,7 +9,7 @@ import { BaseButton } from '../../../../ui/base-button/base-button'
 import './item.css'
 
 export const CalendarGridItem = memo(({ day }: { day: Date }) => {
-	const { today, setIsEditDialog, setEditedDay } = useContext(CalendarContext)
+	const { today, setOpenEditDialog, setEditedDay } = useContext(CalendarContext)
 
 	const { isExistEditedTasks } = useTasks()
 
@@ -25,7 +25,7 @@ export const CalendarGridItem = memo(({ day }: { day: Date }) => {
 
 	const handleButtonClick = () => {
 		setEditedDay(day)
-		setIsEditDialog(true)
+		setOpenEditDialog(true)
 	}
 
 	return (

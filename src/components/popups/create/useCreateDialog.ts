@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
 export const useCreateDialog = () => {
-	const [isCreateDialog, setIsCreateDialog] = useState<boolean>(false)
+	const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false)
 	return {}
 }
