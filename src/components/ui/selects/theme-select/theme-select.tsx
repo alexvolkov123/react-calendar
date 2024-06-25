@@ -1,30 +1,24 @@
-import { MenuItem, Select } from '@mui/material'
+import { SelectChangeEvent } from '@mui/material'
 import { memo, useCallback, useContext } from 'react'
 
 import { ThemeTypes } from '../../../../contexts/theme/theme-types'
 import { ThemeContext } from '../../../../contexts/theme/theme.context'
+import { BaseSelect } from '../base-select/base-select'
 
 export const ThemeSelect = memo(() => {
 	const { mode, setColorMode } = useContext(ThemeContext)
 	const modes: ThemeTypes[] = ['blue', 'black', 'yellow']
 
 	const handleChangeTheme = useCallback(
-		(mode: ThemeTypes): void => {
-			setColorMode(mode)
-		},
+		(e: SelectChangeEvent) => setColorMode(e.target.value as ThemeTypes),
 		[setColorMode]
 	)
 
 	return (
-		<Select
-			value={mode}
-			onChange={e => handleChangeTheme(e.target.value as ThemeTypes)}
-		>
-			{modes.map(mode => (
-				<MenuItem value={mode} key={mode}>
-					{mode}
-				</MenuItem>
-			))}
-		</Select>
+		<BaseSelect
+			items={modes}
+			selectedItem={mode}
+			onChange={handleChangeTheme}
+		/>
 	)
 })
