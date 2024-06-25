@@ -1,30 +1,35 @@
 import { format } from 'date-fns'
-import { useCallback, useContext, useMemo } from 'react'
+import { useCallback, useContext } from 'react'
 
+import { CalendarContext } from '../contexts/calendar/calendar-context'
 import { UserContext } from '../contexts/user/user.context'
-import { ITask } from '../types/types'
-import { localStorageTypes } from './local-storage/types'
+import { Task } from '../types/types'
+import { LocalStorageFieldsEnum } from './local-storage/types'
 import { useLocalStorage } from './local-storage/useLocalStorage'
 
 export const useTasks = () => {
-	const { user, editedDay, setUser } = useContext(UserContext)
+	const { user, setUser } = useContext(UserContext)
+	const { editedDay } = useContext(CalendarContext)
 	const { setToStorage, getUserFromStorage } = useLocalStorage()
 
-	const getUserTasks = useMemo((): ITask[] => {
-		return user ? user!.tasks : []
+	const getUserTasks = useCallback((): Task[] => {
+		return user ? user.tasks : []
 	}, [user])
 
 	const setUserTasks = useCallback(
-		(tasks: ITask[]): void => {
-			setToStorage(localStorageTypes.user, { ...getUserFromStorage(), tasks })
-			setUser({ ...user!, tasks })
+		(tasks: Task[]): void => {
+			setToStorage(LocalStorageFieldsEnum.user, {
+				...getUserFromStorage(),
+				tasks,
+			})
+			user && setUser({ ...user, tasks })
 		},
 		[getUserFromStorage, setToStorage, setUser, user]
 	)
 
-	const getFilteredUserTasks = useMemo((): ITask[] => {
-		return getUserTasks
-			? getUserTasks.filter(
+	const getFilteredUserTasks = useCallback((): Task[] => {
+		return getUserTasks()
+			? getUserTasks().filter(
 					task =>
 						format(task.date, 'yyyy-MM-dd') === format(editedDay, 'yyyy-MM-dd')
 			  )
@@ -33,8 +38,8 @@ export const useTasks = () => {
 
 	const isExistEditedTasks = useCallback(
 		(day: Date): boolean => {
-			return getUserTasks
-				? getUserTasks.filter(
+			return getUserTasks()
+				? getUserTasks().filter(
 						task =>
 							format(task.date, 'yyyy MM dd') === format(day, 'yyyy MM dd')
 				  ).length > 0

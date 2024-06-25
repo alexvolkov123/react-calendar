@@ -7,17 +7,20 @@ import {
 	startOfToday,
 	startOfWeek,
 } from 'date-fns'
-import { useCallback, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 setDefaultOptions({ weekStartsOn: 1 })
 
 export const useCalendar = () => {
-	const [today, setToday] = useState(startOfToday())
+	const [today, setToday] = useState<Date>(new Date())
+	useEffect(() => setToday(startOfToday()), [])
 
-	const [isCreateDialog, setIsCreateDialog] = useState(false)
-	const [isEditDialog, setIsEditDialog] = useState(false)
+	const [isCreateDialog, setIsCreateDialog] = useState<boolean>(false)
+	const [isEditDialog, setIsEditDialog] = useState<boolean>(false)
 
-	const getDays = useCallback((): Date[] => {
+	const [editedDay, setEditedDay] = useState(new Date())
+
+	const days = useMemo((): Date[] => {
 		return eachDayOfInterval({
 			start: startOfWeek(startOfMonth(today)),
 			end: endOfWeek(endOfMonth(today)),
@@ -25,13 +28,16 @@ export const useCalendar = () => {
 	}, [today])
 
 	return {
-		today,
 		isCreateDialog,
 		isEditDialog,
+		today,
+		editedDay,
 
-		getDays,
+		days,
+
 		setToday,
-		setIsCreateDialog,
+		setEditedDay,
 		setIsEditDialog,
+		setIsCreateDialog,
 	}
 }

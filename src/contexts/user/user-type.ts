@@ -1,3 +1,3 @@
 import { useUser } from '../../hooks/useUser'
 
-export type IUserContext = ReturnType<typeof useUser>
+export type UserContextType = ReturnType<typeof useUser>

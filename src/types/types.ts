@@ -1,11 +1,11 @@
-export type IUser = {
+export type User = {
 	username: string
 	email: string
 	password: string
-	tasks: ITask[]
+	tasks: Task[]
 }
 
-export type ITask = {
+export type Task = {
 	id: string
 	title: string
 	date: Date

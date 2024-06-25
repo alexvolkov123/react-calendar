@@ -40,10 +40,13 @@ const dateValidation = {
 	required: 'Date is required',
 }
 
-export const inputValidations = {
+export const authInputValidations = {
 	email: emailValidation,
 	password: passwordValidation,
 	username: usernameValidation,
+}
+
+export const createTaskInputValidations = {
 	title: titleValidation,
 	date: dateValidation,
 	description: {},

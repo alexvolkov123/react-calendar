@@ -1,7 +1,8 @@
+import { ThemeOptions } from '@mui/material'
 import { getThemeColors } from './theme-colors'
-import { themeTypes } from './theme-types'
+import { ThemeTypes } from './theme-types'
 
-export const themeSettings: any = (mode: themeTypes) => {
+export const themeSettings = (mode: ThemeTypes): ThemeOptions => {
 	const colors = getThemeColors(mode)
 	const theme = {
 		palette: {
@@ -28,27 +29,28 @@ export const themeSettings: any = (mode: themeTypes) => {
 					{
 						props: { id: 'submitTask' },
 						style: {
-							backgroundColor: colors.theme?.DEFAULT,
+							backgroundColor: colors.theme.DEFAULT,
 							color: '#fff',
 							boxShadow: 'none',
 							width: 150,
 							borderRadius: 10,
 							':hover': {
-								backgroundColor: colors.theme![200],
+								backgroundColor: colors.theme[200],
 							},
 						},
 					},
 					{
 						props: { id: 'createTask' },
 						style: {
+							position: 'absolute',
 							width: 120,
-							backgroundColor: colors.theme?.DEFAULT,
+							backgroundColor: colors.theme.DEFAULT,
 							height: 120,
 							borderRadius: 60,
 							fontSize: 100,
 							color: '#fff',
 							':hover': {
-								backgroundColor: colors.theme![200],
+								backgroundColor: colors.theme[200],
 							},
 						},
 					},
@@ -73,7 +75,7 @@ export const themeSettings: any = (mode: themeTypes) => {
 					{
 						props: { variant: 'contained', type: 'button' },
 						style: {
-							backgroundColor: `${colors.theme!.DEFAULT}`,
+							backgroundColor: `${colors.theme.DEFAULT}`,
 							color: '#fff',
 							boxShadow: 'none',
 							fontSize: 20,
@@ -82,10 +84,10 @@ export const themeSettings: any = (mode: themeTypes) => {
 							boxSizing: 'border-box',
 							fontWeight: 400,
 							borderRadius: 5,
-							border: `2px solid ${colors.theme![100]}`,
+							border: `2px solid ${colors.theme[100]}`,
 							':hover': {
 								borderWidth: 2,
-								backgroundColor: `${colors.theme![200]}`,
+								backgroundColor: `${colors.theme[200]}`,
 							},
 						},
 					},
@@ -96,7 +98,7 @@ export const themeSettings: any = (mode: themeTypes) => {
 					{
 						props: { id: 'header' },
 						style: {
-							backgroundColor: colors.theme!.DEFAULT,
+							backgroundColor: colors.theme.DEFAULT,
 							margin: 0,
 							padding: 0,
 							display: 'flex',
@@ -114,7 +116,7 @@ export const themeSettings: any = (mode: themeTypes) => {
 					{
 						props: { id: 'circle' },
 						style: {
-							color: `${colors.theme![300]}`,
+							color: `${colors.theme[300]}`,
 							fontSize: 'smaller',
 							position: 'absolute',
 							right: 0,
@@ -129,6 +131,30 @@ export const themeSettings: any = (mode: themeTypes) => {
 						props: { variant: 'outlined' },
 						style: {
 							width: '100%',
+							':hover > :not(.Mui-error) ': {
+								color: '#4d4d4d',
+							},
+						},
+					},
+					{
+						props: { type: 'date' },
+						style: {
+							input: {
+								position: 'relative',
+
+								'::-webkit-calendar-picker-indicator': {
+									cursor: 'pointer',
+									position: 'absolute',
+									top: 0,
+									left: 0,
+									right: 0,
+									bottom: 0,
+									width: 'auto',
+									height: 'auto',
+									color: 'transparent',
+									background: 'transparent',
+								},
+							},
 						},
 					},
 				],
@@ -143,6 +169,13 @@ export const themeSettings: any = (mode: themeTypes) => {
 					},
 					notchedOutline: {
 						borderWidth: 2,
+					},
+				},
+			},
+			MuiFormLabel: {
+				styleOverrides: {
+					root: {
+						color: '#b8b8b8',
 					},
 				},
 			},
@@ -189,6 +222,6 @@ export const themeSettings: any = (mode: themeTypes) => {
 				},
 			},
 		},
-	}
+	} as ThemeOptions
 	return theme
 }

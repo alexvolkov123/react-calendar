@@ -1,19 +1,12 @@
-import { ReactElement } from 'react'
-
-export type isAuthType = {
-	redirect: RoutePaths
+export type IsAuthType = {
+	redirect: RoutePathsEnum
 	isInverse?: boolean
 }
 
-export type routeType = {
-	path: RoutePaths
-	element: ReactElement
-	isAuth?: isAuthType
-}
-
-export enum RoutePaths {
+export enum RoutePathsEnum {
 	root = '/',
 	signIn = '/sign-in',
 	signUp = '/sign-up',
 	calendar = '/calendar',
+	notFound = '/*',
 }

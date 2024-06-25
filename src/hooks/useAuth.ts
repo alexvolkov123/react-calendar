@@ -1,12 +1,11 @@
 import { useCallback, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { inputTypes } from '../components/form-input/form-input-props'
+import { AuthInputs } from '../components/ui/form-input/form-input-props'
 import { UserContext } from '../contexts/user/user.context'
-import { RoutePaths } from '../routes/types'
-import { IUser } from '../types/types'
+import { RoutePathsEnum } from '../routes/types'
+import { User } from '../types/types'
 import { notify } from '../utils/notify/notify'
-import { notifyMessages } from '../utils/notify/notify-messages'
 
 export const useAuth = () => {
 	const navigate = useNavigate()
@@ -14,36 +13,36 @@ export const useAuth = () => {
 		useContext(UserContext)
 
 	const signIn = useCallback(
-		(user: IUser) => {
+		(user: User) => {
 			if (!isUserExist(user.email)) {
-				notify(notifyMessages.userNotFound, 'error')
+				notify('User is not found', 'error')
 			} else if (!isPasswordMatch(user)) {
-				notify(notifyMessages.passwordIsIncorrect, 'error')
+				notify('The password is incorrect', 'error')
 			} else {
 				addUser(user.email)
-				navigate(RoutePaths.calendar)
-				notify(notifyMessages.loggedIn)
+				navigate(RoutePathsEnum.calendar)
+				notify('You are logged in')
 			}
 		},
 		[addUser, isPasswordMatch, isUserExist, navigate]
 	)
 
 	const signUp = useCallback(
-		(user: IUser) => {
+		(user: User) => {
 			if (isUserExist(user.email)) {
-				notify(notifyMessages.userAlreadyExists, 'error')
+				notify('An account with the same email address already exists', 'error')
 			} else {
 				registerUser({ ...user, tasks: [] })
-				notify(notifyMessages.youAreRegistered)
-				navigate(RoutePaths.calendar)
+				notify('You are registered')
+				navigate(RoutePathsEnum.calendar)
 			}
 		},
 		[isUserExist, navigate, registerUser]
 	)
 
-	const getInputs = useCallback((isSignUp: boolean): inputTypes[] => {
-		const signInInputs: inputTypes[] = ['email', 'password']
-		const signUpInputs: inputTypes[] = ['username', ...signInInputs]
+	const getInputs = useCallback((isSignUp: boolean): AuthInputs[] => {
+		const signInInputs: AuthInputs[] = ['email', 'password']
+		const signUpInputs: AuthInputs[] = ['username', ...signInInputs]
 
 		return isSignUp ? signUpInputs : signInInputs
 	}, [])

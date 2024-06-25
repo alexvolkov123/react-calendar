@@ -1,12 +1,34 @@
 import { RemoveCircleOutlineRounded } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
-import { memo } from 'react'
+import { memo, useCallback } from 'react'
 
-import { useDialog } from '../../../../hooks/useDialog'
-import { ITask } from '../../../../types/types'
+import { useTasks } from '../../../../hooks/useTasks'
+import { notify } from '../../../../utils/notify/notify'
+import { EditDialogTaskProps } from './props'
 
-export const EditDialogTask = memo(({ task }: { task: ITask }) => {
-	const { deleteTask } = useDialog()
+export const EditDialogTask = memo(({ task, onClose }: EditDialogTaskProps) => {
+	const { getUserTasks, setUserTasks, getFilteredUserTasks } = useTasks()
+
+	const updateTasks = useCallback(
+		(id: string) => {
+			const newTasks = getUserTasks().filter(task => task.id !== id)
+
+			setUserTasks(newTasks)
+
+			notify('You successfully deleted the task')
+		},
+		[setUserTasks, getUserTasks]
+	)
+
+	const deleteTask = useCallback(
+		(id: string) => {
+			const tasksLength = getFilteredUserTasks().filter(task => task.id !== id)
+			tasksLength.length === 0 && onClose()
+
+			updateTasks(id)
+		},
+		[getFilteredUserTasks, onClose, updateTasks]
+	)
 
 	return (
 		<li className='dialog-task'>

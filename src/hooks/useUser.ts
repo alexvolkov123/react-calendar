@@ -1,6 +1,6 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
-import { IUser } from '../types/types'
+import { User } from '../types/types'
 import { useLocalStorage } from './local-storage/useLocalStorage'
 
 export const useUser = () => {
@@ -12,9 +12,8 @@ export const useUser = () => {
 		updateUsers,
 	} = useLocalStorage()
 
-	const [editedDay, setEditedDay] = useState(new Date())
-
-	const [user, setUser] = useState<IUser | null>(getUserFromStorage())
+	const [user, setUser] = useState<User | null>({} as User)
+	useEffect(() => setUser(getUserFromStorage()), [getUserFromStorage])
 
 	const addUser = useCallback(
 		(email: string): void => {
@@ -25,7 +24,7 @@ export const useUser = () => {
 	)
 
 	const registerUser = useCallback(
-		(user: IUser): void => {
+		(user: User): void => {
 			setUser(user)
 			setUserToStorage(user)
 			addUserToUsers(user)
@@ -48,7 +47,7 @@ export const useUser = () => {
 	)
 
 	const isPasswordMatch = useCallback(
-		(user: IUser): boolean => {
+		(user: User): boolean => {
 			return user.password === getUserByEmail(user.email).password
 		},
 		[getUserByEmail]
@@ -56,7 +55,6 @@ export const useUser = () => {
 
 	return {
 		user,
-		editedDay,
 
 		removeUser,
 		registerUser,
@@ -64,6 +62,5 @@ export const useUser = () => {
 		isUserExist,
 		isPasswordMatch,
 		setUser,
-		setEditedDay,
 	}
 }

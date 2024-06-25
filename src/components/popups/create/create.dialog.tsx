@@ -1,53 +1,65 @@
 import { Dialog } from '@mui/material'
-import { memo, useContext } from 'react'
+import { memo, useCallback, useContext, useMemo } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
 
 import { CalendarContext } from '../../../contexts/calendar/calendar-context'
-import { useDialog } from '../../../hooks/useDialog'
-import { ITask, IUser } from '../../../types/types'
+import { useTasks } from '../../../hooks/useTasks'
+import { Task } from '../../../types/types'
+import { formConfig } from '../../../utils/form-config/form-config'
 import { notify } from '../../../utils/notify/notify'
-import { notifyMessages } from '../../../utils/notify/notify-messages'
-import { inputValidations } from '../../../validation'
-import { FormButton } from '../../form-button/form-button'
-import { FormInput } from '../../form-input/form-input'
-import { FormStack } from '../../form-stack/form-stack'
-import { Title } from '../../title/title'
+import { createTaskInputValidations } from '../../../validation'
+import { FormButton } from '../../ui/form-button/form-button'
+import { FormInput } from '../../ui/form-input/form-input'
+import { CreateTaskInputs } from '../../ui/form-input/form-input-props'
+import { FormStack } from '../../ui/form-stack/form-stack'
+import { Title } from '../../ui/title/title'
 
 export const CreateDialog = memo(() => {
-	const { isCreateDialog } = useContext(CalendarContext)
-
-	const { getInputNames, closeCreateDialog } = useDialog()
-
-	const id: string = uuidv4()
+	const { isCreateDialog, setIsCreateDialog } = useContext(CalendarContext)
+	const { getUserTasks, setUserTasks } = useTasks()
 
 	const {
 		register,
 		handleSubmit,
 		reset,
 		formState: { errors, isValid },
-	} = useForm<ITask & IUser>({
-		mode: 'onTouched',
-		shouldFocusError: false,
-	})
+	} = useForm<Task>(formConfig)
 
-	const onSubmit: SubmitHandler<ITask> = (data: ITask): void => {
-		reset()
-		notify(notifyMessages.createdTask)
-		closeCreateDialog({ ...data, id })
-	}
+	const dialogInputs = useMemo((): CreateTaskInputs[] => {
+		return ['title', 'date', 'description']
+	}, [])
+
+	const id: string = uuidv4()
+
+	const closeCreateDialog = useCallback(
+		(task?: Task) => {
+			reset()
+			setIsCreateDialog(false)
+			task && setUserTasks([...getUserTasks(), task])
+		},
+		[getUserTasks, reset, setIsCreateDialog, setUserTasks]
+	)
+
+	const onSubmit: SubmitHandler<Task> = useCallback(
+		(data: Task) => {
+			notify('You successfully created the task')
+			closeCreateDialog({ ...data, id })
+		},
+		[closeCreateDialog, id]
+	)
 
 	return (
 		<Dialog onClose={() => closeCreateDialog()} open={isCreateDialog}>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<FormStack>
 					<Title>Create Task</Title>
-					{getInputNames().map(inputName => (
-						<FormInput
+					{dialogInputs.map(inputName => (
+						<FormInput<Task, CreateTaskInputs>
 							key={inputName}
 							register={register}
 							name={inputName}
-							validation={inputValidations[inputName] || {}}
+							validation={createTaskInputValidations[inputName] || {}}
 							errors={errors}
 							type={inputName}
 						/>

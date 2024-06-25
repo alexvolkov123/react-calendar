@@ -1,5 +1,7 @@
 import { createContext } from 'react'
 
-import { IThemeContext } from './theme-types'
+import { ThemeContextType } from './theme-types'
 
-export const ThemeContext = createContext<IThemeContext>({} as IThemeContext)
+export const ThemeContext = createContext<ThemeContextType>(
+	{} as ThemeContextType
+)

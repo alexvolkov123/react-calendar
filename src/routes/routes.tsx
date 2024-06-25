@@ -1,38 +1,45 @@
-import { AuthWrapperForm } from '../pages/auth/auth-wrapper-form/auth-wrapper-form'
-import { Calendar } from '../pages/calendar/calendar'
-import { RoutePaths, routeType } from './types'
+import { RouteObject } from 'react-router-dom'
+import { AuthGuard } from '../guards/auth-guard'
+import { AuthPage } from '../pages/auth/auth-page'
+import { CalendarPage } from '../pages/calendar/calendar-page'
+import { NotFoundPage } from '../pages/not-found/not-found-page'
+import { RoutePathsEnum } from './types'
 
-export const routes: routeType[] = [
+export const routes: RouteObject[] = [
 	{
-		path: RoutePaths.root,
-		element: <Calendar />,
-		isAuth: { redirect: RoutePaths.signIn },
-	},
-	{
-		path: RoutePaths.calendar,
-		element: <Calendar />,
-		isAuth: { redirect: RoutePaths.signIn },
-	},
-	{
-		path: RoutePaths.signIn,
+		path: RoutePathsEnum.root,
 		element: (
-			<AuthWrapperForm
-				linkText='Don`t have an account? Try to'
-				isSignUp={false}
-				title='Sign In'
-			/>
+			<AuthGuard redirect={RoutePathsEnum.signIn}>
+				<CalendarPage />
+			</AuthGuard>
 		),
-		isAuth: { redirect: RoutePaths.calendar, isInverse: true },
 	},
 	{
-		path: RoutePaths.signUp,
+		path: RoutePathsEnum.calendar,
 		element: (
-			<AuthWrapperForm
-				linkText='Have you an account?'
-				isSignUp={true}
-				title='Sign up'
-			/>
+			<AuthGuard redirect={RoutePathsEnum.signIn}>
+				<CalendarPage />
+			</AuthGuard>
 		),
-		isAuth: { redirect: RoutePaths.calendar, isInverse: true },
+	},
+	{
+		path: RoutePathsEnum.signIn,
+		element: (
+			<AuthGuard redirect={RoutePathsEnum.calendar} isInverse={true}>
+				<AuthPage isSignIn={true} />
+			</AuthGuard>
+		),
+	},
+	{
+		path: RoutePathsEnum.signUp,
+		element: (
+			<AuthGuard redirect={RoutePathsEnum.calendar} isInverse={true}>
+				<AuthPage isSignIn={false} />
+			</AuthGuard>
+		),
+	},
+	{
+		path: RoutePathsEnum.notFound,
+		element: <NotFoundPage />,
 	},
 ]

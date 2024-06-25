@@ -10,13 +10,14 @@ import { useUser } from './hooks/useUser'
 import { router } from './router'
 
 export const App = () => {
-	const { theme, setColorMode, getColorMode } = useMode()
+	const { theme, setColorMode, mode } = useMode()
+	const userContext = useUser()
 
 	return (
-		<ThemeContext.Provider value={{ setColorMode, getColorMode }}>
+		<ThemeContext.Provider value={{ setColorMode, mode }}>
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
-				<UserContext.Provider value={{ ...useUser() }}>
+				<UserContext.Provider value={{ ...userContext }}>
 					<RouterProvider router={router} />
 
 					<ToastContainer

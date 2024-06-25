@@ -1,53 +1,62 @@
 import { useCallback } from 'react'
 
-import { IUser } from '../../types/types'
-import { localStorageTypes, storageTypes } from './types'
+import { ThemeTypes } from '../../contexts/theme/theme-types'
+import { User } from '../../types/types'
+import { LocalStorageFieldsEnum, StorageTypes } from './types'
 
 export const useLocalStorage = () => {
-	const getFromStorage = useCallback((value: storageTypes) => {
+	const getFromStorage = useCallback((value: StorageTypes) => {
 		return JSON.parse(localStorage.getItem(value) || 'null')
 	}, [])
 
-	const setToStorage = useCallback((key: storageTypes, value: any): void => {
+	const setToStorage = useCallback((key: StorageTypes, value: any): void => {
 		localStorage.setItem(key, JSON.stringify(value))
 	}, [])
 
-	const getUserFromStorage = useCallback((): IUser | null => {
-		return getFromStorage(localStorageTypes.user)
+	const getModeFromStorage = useCallback(
+		() => (localStorage.getItem('mode') || 'blue') as ThemeTypes,
+		[]
+	)
+
+	const getUserFromStorage = useCallback((): User | null => {
+		return getFromStorage(LocalStorageFieldsEnum.user)
 	}, [getFromStorage])
 
 	const setUserToStorage = useCallback(
-		(user: IUser | null): void => {
-			setToStorage(localStorageTypes.user, user)
+		(user: User | null): void => {
+			setToStorage(LocalStorageFieldsEnum.user, user)
 		},
 		[setToStorage]
 	)
 
-	const getUsers = useCallback((): IUser[] => {
-		return getFromStorage(localStorageTypes.users)
-			? getFromStorage(localStorageTypes.users)
+	const getUsers = useCallback((): User[] => {
+		return getFromStorage(LocalStorageFieldsEnum.users)
+			? getFromStorage(LocalStorageFieldsEnum.users)
 			: []
 	}, [getFromStorage])
 
 	const getUserByEmail = useCallback(
-		(email: string): IUser => {
+		(email: string): User => {
 			return getUsers().filter(user => user.email === email)[0]
 		},
 		[getUsers]
 	)
 
 	const addUserToUsers = useCallback(
-		(user: IUser): void => {
-			setToStorage(localStorageTypes.users, [...getUsers(), user])
+		(user: User): void => {
+			setToStorage(LocalStorageFieldsEnum.users, [...getUsers(), user])
 		},
 		[getUsers, setToStorage]
 	)
 
 	const updateUsers = useCallback((): void => {
 		const newUsers = getUsers().filter(
-			newUser => newUser.email !== getUserFromStorage()!.email
+			newUser => newUser.email !== getUserFromStorage()?.email
 		)
-		setToStorage(localStorageTypes.users, [...newUsers, getUserFromStorage()])
+		setToStorage(LocalStorageFieldsEnum.users, [
+			...newUsers,
+			getUserFromStorage(),
+		])
 	}, [getUserFromStorage, getUsers, setToStorage])
 
 	return {
@@ -56,6 +65,7 @@ export const useLocalStorage = () => {
 		setToStorage,
 		getUserFromStorage,
 		setUserToStorage,
+		getModeFromStorage,
 		addUserToUsers,
 		updateUsers,
 	}

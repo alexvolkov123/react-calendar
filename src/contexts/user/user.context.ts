@@ -1,5 +1,5 @@
 import { createContext } from 'react'
 
-import { IUserContext } from './user-type'
+import { UserContextType } from './user-type'
 
-export const UserContext = createContext<IUserContext>({} as IUserContext)
+export const UserContext = createContext<UserContextType>({} as UserContextType)

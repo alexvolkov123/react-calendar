@@ -1,25 +1,23 @@
 import { Theme, createTheme } from '@mui/material'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { themeSettings } from '../contexts/theme/theme-settings'
-import { themeTypes } from '../contexts/theme/theme-types'
-import { localStorageTypes } from './local-storage/types'
+import { ThemeTypes } from '../contexts/theme/theme-types'
+import { LocalStorageFieldsEnum } from './local-storage/types'
+import { useLocalStorage } from './local-storage/useLocalStorage'
 
 export const useMode = () => {
-	const [mode, setMode] = useState<themeTypes>(
-		(localStorage.getItem(localStorageTypes.mode) as themeTypes) || 'blue'
-	)
+	const { getModeFromStorage } = useLocalStorage()
 
-	const setColorMode = useCallback((mode: themeTypes): void => {
+	const [mode, setMode] = useState<ThemeTypes>('blue')
+	useEffect(() => setMode(getModeFromStorage), [getModeFromStorage])
+
+	const setColorMode = useCallback((mode: ThemeTypes): void => {
 		setMode(mode)
-		localStorage.setItem(localStorageTypes.mode, mode)
+		localStorage.setItem(LocalStorageFieldsEnum.mode, mode)
 	}, [])
 
 	const theme = useMemo((): Theme => createTheme(themeSettings(mode)), [mode])
 
-	const getColorMode = useCallback((): themeTypes => {
-		return mode
-	}, [mode])
-
-	return { theme, setColorMode, getColorMode }
+	return { theme, setColorMode, mode }
 }
