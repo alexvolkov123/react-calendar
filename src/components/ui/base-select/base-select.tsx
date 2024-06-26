@@ -5,7 +5,6 @@ import { BaseSelectProps } from './base-select-props'
 export const BaseSelect = ({
 	items,
 	selectedItem,
-	onConvert,
 	onChange,
 }: BaseSelectProps) => {
 	return (

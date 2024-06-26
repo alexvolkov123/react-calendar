@@ -39,17 +39,13 @@ export const useAuth = () => {
 		},
 		[isUserExist, navigate, registerUser]
 	)
-
-	const getInputs = useCallback((isSignUp: boolean): AuthInputs[] => {
-		const signInInputs: AuthInputs[] = ['email', 'password']
-		const signUpInputs: AuthInputs[] = ['username', ...signInInputs]
-
-		return isSignUp ? signUpInputs : signInInputs
-	}, [])
+	const signInInputs: AuthInputs[] = ['email', 'password']
+	const signUpInputs: AuthInputs[] = ['username', ...signInInputs]
 
 	return {
 		signIn,
 		signUp,
-		getInputs,
+		signInInputs,
+		signUpInputs,
 	}
 }

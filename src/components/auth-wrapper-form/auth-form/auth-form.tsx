@@ -1,7 +1,6 @@
 import { memo, useCallback } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { useAuth } from '../../../hooks/useAuth'
 import { User } from '../../../types/types'
 import { formConfig } from '../../../utils/form-config/form-config'
 import { authInputValidations } from '../../../validation'
@@ -13,9 +12,7 @@ import { Title } from '../../ui/title/title'
 import './auth-form.css'
 import { AuthFormProps } from './props'
 
-export const AuthForm = memo(({ title, isSignUp }: AuthFormProps) => {
-	const { signIn, signUp, getInputs } = useAuth()
-
+export const AuthForm = memo(({ title, inputs, onSubmit }: AuthFormProps) => {
 	const {
 		register,
 		handleSubmit,
@@ -23,19 +20,19 @@ export const AuthForm = memo(({ title, isSignUp }: AuthFormProps) => {
 		formState: { errors, isValid },
 	} = useForm<User>(formConfig)
 
-	const onSubmit: SubmitHandler<User> = useCallback(
+	const handleOnSubmit: SubmitHandler<User> = useCallback(
 		(data: User): void => {
-			isSignUp ? signUp(data) : signIn(data)
+			onSubmit(data)
 			reset()
 		},
-		[isSignUp, reset, signIn, signUp]
+		[onSubmit, reset]
 	)
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)} className='form'>
+		<form onSubmit={handleSubmit(handleOnSubmit)} className='form'>
 			<FormStack>
 				<Title>{title}</Title>
-				{getInputs(isSignUp).map(inputName => (
+				{inputs.map(inputName => (
 					<FormInput<User, AuthInputs>
 						key={inputName}
 						register={register}

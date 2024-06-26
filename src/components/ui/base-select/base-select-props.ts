@@ -7,6 +7,5 @@ type ItemType = {
 export type BaseSelectProps = {
 	items: ItemType[]
 	selectedItem: string
-	onConvert?: (element: string) => string
 	onChange: (event: SelectChangeEvent) => void
 }

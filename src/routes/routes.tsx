@@ -1,6 +1,7 @@
 import { RouteObject } from 'react-router-dom'
 import { AuthGuard } from '../guards/auth-guard'
-import { AuthPage } from '../pages/auth/auth-page'
+import { SignInPage } from '../pages/auth/sign-in-page'
+import { SignUpPage } from '../pages/auth/sign-up-page'
 import { CalendarPage } from '../pages/calendar/calendar-page'
 import { NotFoundPage } from '../pages/not-found/not-found-page'
 import { RoutePathsEnum } from './types'
@@ -26,7 +27,7 @@ export const routes: RouteObject[] = [
 		path: RoutePathsEnum.signIn,
 		element: (
 			<AuthGuard redirect={RoutePathsEnum.calendar} isInverse={true}>
-				<AuthPage isSignIn={true} />
+				<SignInPage />
 			</AuthGuard>
 		),
 	},
@@ -34,7 +35,7 @@ export const routes: RouteObject[] = [
 		path: RoutePathsEnum.signUp,
 		element: (
 			<AuthGuard redirect={RoutePathsEnum.calendar} isInverse={true}>
-				<AuthPage isSignIn={false} />
+				<SignUpPage />
 			</AuthGuard>
 		),
 	},
