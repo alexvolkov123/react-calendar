@@ -40,10 +40,10 @@ export const CreateDialog = memo(() => {
 	const onSubmit: SubmitHandler<Task> = useCallback(
 		(data: Task) => {
 			notify('You successfully created the task')
-			data && setUserTasks([...userTasks, data])
+			data && setUserTasks([...userTasks, { ...data, id }])
 			closeCreateDialog()
 		},
-		[closeCreateDialog, userTasks, setUserTasks]
+		[setUserTasks, userTasks, id, closeCreateDialog]
 	)
 
 	return (

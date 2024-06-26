@@ -29,10 +29,15 @@ export const MonthSelect = memo(() => {
 		}))
 	}, [months])
 
+	const selectedItem = useMemo(
+		() => months[today.getMonth()].toISOString(),
+		[months, today]
+	)
+
 	return (
 		<BaseSelect
 			items={convertedMonths}
-			selectedItem={months[today.getMonth()].toISOString()}
+			selectedItem={selectedItem}
 			onChange={handleChangeMonth}
 		/>
 	)
