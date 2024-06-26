@@ -23,9 +23,10 @@ export const MonthSelect = memo(() => {
 	)
 
 	const convertedMonths = useMemo(() => {
-		return months.map(month => {
-			return { value: month.toISOString(), label: format(month, 'MMMM') }
-		})
+		return months.map(month => ({
+			value: month.toISOString(),
+			label: format(month, 'MMMM'),
+		}))
 	}, [months])
 
 	return (
