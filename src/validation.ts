@@ -5,30 +5,22 @@ const REG_LATIN = /[а-яА-Я]/
 const emailValidation = {
 	required: 'Email is required',
 	validate: (value: string) => {
-		if (value.match(REG_LATIN)) {
-			return 'Email must contain only latin letters'
-		}
-		if (!value.match(REG_EMAIL)) {
-			return 'Invalid Email'
-		}
+		if (value.match(REG_LATIN)) return 'Email must contain only latin letters'
+		if (!value.match(REG_EMAIL)) return 'Invalid Email'
 	},
 }
 
 const passwordValidation = {
 	required: 'Password is required',
 	validate: (value: string) => {
-		if (value.length < 8) {
-			return 'Password must be contain at least 7 letters'
-		}
+		if (value.length < 8) return 'Password must be contain at least 7 letters'
 	},
 }
 
 const usernameValidation = {
 	required: 'Username is required',
 	validate: (value: string) => {
-		if (value.length < 5) {
-			return 'Username must be contain at least 4 letters'
-		}
+		if (value.length < 5) return 'Username must be contain at least 4 letters'
 	},
 }
 

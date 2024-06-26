@@ -13,9 +13,10 @@ export const ThemeSelect = memo(() => {
 		(e: SelectChangeEvent) => setColorMode(e.target.value as ThemeTypes),
 		[setColorMode]
 	)
-	const convertedModes = useMemo(() => {
-		return modes.map(mode => ({ label: mode, value: mode }))
-	}, [modes])
+	const convertedModes = useMemo(
+		() => modes.map(mode => ({ label: mode, value: mode })),
+		[modes]
+	)
 
 	return (
 		<BaseSelect

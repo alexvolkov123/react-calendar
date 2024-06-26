@@ -1,7 +1,7 @@
-import { ReactElement } from 'react'
+import { ReactElement, useContext } from 'react'
 import { Navigate } from 'react-router-dom'
 
-import { useLocalStorage } from '../hooks/local-storage/useLocalStorage'
+import { UserContext } from '../contexts/user/user.context'
 import { AuthGuardProps } from './props'
 
 export const AuthGuard = ({
@@ -9,7 +9,7 @@ export const AuthGuard = ({
 	redirect,
 	isInverse = false,
 }: AuthGuardProps) => {
-	const { getUserFromStorage } = useLocalStorage()
+	const { getUserFromStorage } = useContext(UserContext)
 
 	const routesCondition = (): ReactElement => {
 		if (isInverse)

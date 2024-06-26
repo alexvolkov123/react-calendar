@@ -8,13 +8,11 @@ import { LocalStorageFieldsEnum } from './local-storage/types'
 import { useLocalStorage } from './local-storage/useLocalStorage'
 
 export const useTasks = () => {
-	const { user, setUser } = useContext(UserContext)
+	const { user, setUser, getUserFromStorage } = useContext(UserContext)
 	const { editedDay } = useContext(CalendarContext)
-	const { setToStorage, getUserFromStorage } = useLocalStorage()
+	const { setToStorage } = useLocalStorage()
 
-	const userTasks = useMemo((): Task[] => {
-		return user ? user.tasks : []
-	}, [user])
+	const userTasks = useMemo((): Task[] => user?.tasks ?? [], [user])
 
 	const setUserTasks = useCallback(
 		(tasks: Task[]): void => {
@@ -27,24 +25,20 @@ export const useTasks = () => {
 		[getUserFromStorage, setToStorage, setUser, user]
 	)
 
-	const filteredUserTasks = useMemo((): Task[] => {
-		return userTasks
-			? userTasks.filter(
-					task =>
-						format(task.date, 'yyyy-MM-dd') === format(editedDay, 'yyyy-MM-dd')
-			  )
-			: []
-	}, [editedDay, userTasks])
+	const filteredUserTasks = useMemo(
+		(): Task[] =>
+			userTasks.filter(
+				task =>
+					format(task.date, 'yyyy-MM-dd') === format(editedDay, 'yyyy-MM-dd')
+			),
+		[editedDay, userTasks]
+	)
 
 	const isExistEditedTasks = useCallback(
-		(day: Date): boolean => {
-			return userTasks
-				? userTasks.filter(
-						task =>
-							format(task.date, 'yyyy MM dd') === format(day, 'yyyy MM dd')
-				  ).length > 0
-				: false
-		},
+		(day: Date): boolean =>
+			userTasks.filter(
+				task => format(task.date, 'yyyy MM dd') === format(day, 'yyyy MM dd')
+			).length > 0,
 		[userTasks]
 	)
 

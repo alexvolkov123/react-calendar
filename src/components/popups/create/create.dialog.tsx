@@ -26,9 +26,10 @@ export const CreateDialog = memo(() => {
 		formState: { errors, isValid },
 	} = useForm<Task>(formConfig)
 
-	const dialogInputs = useMemo((): CreateTaskInputs[] => {
-		return ['title', 'date', 'description']
-	}, [])
+	const dialogInputs: CreateTaskInputs[] = useMemo(
+		() => ['title', 'date', 'description'],
+		[]
+	)
 
 	const id: string = uuidv4()
 

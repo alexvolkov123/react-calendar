@@ -11,15 +11,16 @@ export function FormInput<T extends FieldValues, N extends Path<T>>({
 	errors,
 	type,
 }: FormInputProps<T, N>) {
-	const nameWithCapitalizedFirstLetter = useMemo((): string => {
-		if (name === 'date') return ''
-		return name.charAt(0).toUpperCase() + name.slice(1)
-	}, [name])
+	const nameWithCapitalizedFirstLetter = useMemo(
+		() => (name === 'date' ? '' : name.charAt(0).toUpperCase() + name.slice(1)),
+		[name]
+	)
 
-	const helperText = useMemo(() => {
-		return (errors[name]?.message as string) || ''
+	const helperText = useMemo(
+		() => (errors[name]?.message as string) || '',
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [errors[name]])
+		[errors[name]]
+	)
 
 	return (
 		<TextField

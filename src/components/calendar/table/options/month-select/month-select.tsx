@@ -8,12 +8,14 @@ import { BaseSelect } from '../../../../ui/base-select/base-select'
 export const MonthSelect = memo(() => {
 	const { today, setToday } = useContext(CalendarContext)
 
-	const months = useMemo(() => {
-		return eachMonthOfInterval({
-			start: startOfYear(today),
-			end: endOfYear(today),
-		})
-	}, [today])
+	const months = useMemo(
+		() =>
+			eachMonthOfInterval({
+				start: startOfYear(today),
+				end: endOfYear(today),
+			}),
+		[today]
+	)
 
 	const handleChangeMonth = useCallback(
 		(e: SelectChangeEvent) => {
@@ -22,12 +24,14 @@ export const MonthSelect = memo(() => {
 		[setToday]
 	)
 
-	const convertedMonths = useMemo(() => {
-		return months.map(month => ({
-			value: month.toISOString(),
-			label: format(month, 'MMMM'),
-		}))
-	}, [months])
+	const convertedMonths = useMemo(
+		() =>
+			months.map(month => ({
+				value: month.toISOString(),
+				label: format(month, 'MMMM'),
+			})),
+		[months]
+	)
 
 	const selectedItem = useMemo(
 		() => months[today.getMonth()].toISOString(),

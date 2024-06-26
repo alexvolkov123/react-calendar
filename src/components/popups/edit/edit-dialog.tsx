@@ -1,6 +1,6 @@
 import { Dialog } from '@mui/material'
 import { format } from 'date-fns'
-import { memo, useCallback, useContext } from 'react'
+import { memo, useCallback, useContext, useMemo } from 'react'
 
 import { CalendarContext } from '../../../contexts/calendar/calendar-context'
 import { useTasks } from '../../../hooks/useTasks'
@@ -13,11 +13,13 @@ export const EditDialog = memo(() => {
 
 	const { filteredUserTasks } = useTasks()
 
-	const getTitle = (): string => {
-		return filteredUserTasks.length > 0
-			? format(filteredUserTasks[0].date, 'dd.MM.yyyy')
-			: 'Нет событий'
-	}
+	const title = useMemo(
+		(): string =>
+			filteredUserTasks.length > 0
+				? format(filteredUserTasks[0].date, 'dd.MM.yyyy')
+				: 'Нет событий',
+		[filteredUserTasks]
+	)
 
 	const closeEditDialog = useCallback(() => {
 		setOpenEditDialog(false)
@@ -26,17 +28,15 @@ export const EditDialog = memo(() => {
 	return (
 		<Dialog onClose={closeEditDialog} open={openEditDialog}>
 			<div className='dialog'>
-				<Title>{getTitle()}</Title>
+				<Title>{title}</Title>
 				<ul className='dialog-tasks' hidden={filteredUserTasks.length === 0}>
-					{filteredUserTasks.map(task => {
-						return (
-							<EditDialogTask
-								key={task.id}
-								task={task}
-								onClose={closeEditDialog}
-							/>
-						)
-					})}
+					{filteredUserTasks.map(task => (
+						<EditDialogTask
+							key={task.id}
+							task={task}
+							onClose={closeEditDialog}
+						/>
+					))}
 				</ul>
 			</div>
 		</Dialog>

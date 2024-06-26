@@ -20,12 +20,14 @@ export const useCalendar = () => {
 
 	const [editedDay, setEditedDay] = useState(new Date())
 
-	const days = useMemo((): Date[] => {
-		return eachDayOfInterval({
-			start: startOfWeek(startOfMonth(today)),
-			end: endOfWeek(endOfMonth(today)),
-		})
-	}, [today])
+	const days = useMemo(
+		(): Date[] =>
+			eachDayOfInterval({
+				start: startOfWeek(startOfMonth(today)),
+				end: endOfWeek(endOfMonth(today)),
+			}),
+		[today]
+	)
 
 	return {
 		openCreateDialog,
